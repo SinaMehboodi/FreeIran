@@ -167,6 +167,12 @@
     }
     .files{margin-top:10px;color:var(--muted);font-size:.95rem}
     .error{color:#ffb4b4}
+
+    .hint{
+      margin-top:10px;
+      color:var(--muted);
+      font-size:.95rem;
+    }
   </style>
 </head>
 
@@ -176,16 +182,17 @@
     <div class="titleRow">
       <div class="badgeIcon">✉️</div>
       <div>
-        <h1 id="pageTitle">کمپین ایمیل</h1>
+        <h1 id="pageTitle"></h1>
         <div class="subtitle" id="pageSubtitle"></div>
       </div>
     </div>
-    <button id="langBtn" class="langBtn" type="button">🌐 EN</button>
+    <button id="langBtn" class="langBtn" type="button"></button>
   </div>
 
   <div class="card warn">
     <b id="warnTitle"></b>
     <span id="warnText" style="color:var(--muted)"></span>
+    <div class="hint" id="hostingHint"></div>
   </div>
 
   <div class="grid">
@@ -320,7 +327,7 @@
   // =========================
   // Language system (FA default)
   // =========================
-  let LANG = "fa"; // default
+  let LANG = "fa";
 
   const UI = {
     fa: {
@@ -329,6 +336,7 @@
       subtitle:"این صفحه ۴ بخش دارد. هر بخش لیست گیرندگان و متن مخصوص خودش را دارد. با یک کلیک، پیش‌نویس آماده در اپ ایمیل شما باز می‌شود.",
       warnTitle:"نکته مهم:",
       warnText:"مرورگرهای داخل اپ‌ها (Instagram/X/Telegram) اغلب mailto: را بلاک می‌کنند. اگر کار نکرد: لینک را در مرورگر اصلی (Safari/Chrome) باز کنید یا گزینه «Open in browser» را بزنید.",
+      hostingHint:"⚠️ این صفحه باید از GitHub Pages (نه داخل صفحهٔ فایل‌های GitHub) باز شود؛ وگرنه دکمه‌ها و فایل‌خوانی ممکن است کار نکند.",
       toggle:"🌐 EN",
 
       sectionTitles:{
@@ -337,6 +345,7 @@
         grn:"ارسال ایمیل به سبزها / ائتلاف ۹۰",
         oth:"ارسال ایمیل به سایرین"
       },
+      partyNames:{ cdu:"CDU/CSU", spd:"SPD", grn:"Greens / Alliance 90", oth:"Others" },
       meta:(party, n)=>`گیرندگان: ${party} • متن: پیام #${n}`,
       sendBtn:"✅ ارسال ایمیل (باز کردن پیش‌نویس)",
       statusLabel:"وضعیت:",
@@ -349,6 +358,7 @@
       previewSummary:"نمایش موضوع و متن ایمیل",
       subjectLabel:"موضوع:",
       files:(m, msg)=>`فایل‌ها: ${m} + ${msg}`,
+      dash:"—",
       errorPrefix:"خطا: "
     },
 
@@ -358,6 +368,7 @@
       subtitle:"This page has 4 sections. Each section has its own recipient list and its own message. One click opens a ready draft in your email app.",
       warnTitle:"Note (important):",
       warnText:"In-app browsers (Instagram/X/Telegram) often block mailto:. If it doesn’t work: open the link in Safari/Chrome or choose “Open in browser”.",
+      hostingHint:"⚠️ Open this page via GitHub Pages (not the GitHub file viewer), otherwise the buttons / file loading may not work.",
       toggle:"🌐 DE",
 
       sectionTitles:{
@@ -366,6 +377,7 @@
         grn:"Send email to the Greens / Alliance 90",
         oth:"Send email to Others"
       },
+      partyNames:{ cdu:"CDU/CSU", spd:"SPD", grn:"Greens / Alliance 90", oth:"Others" },
       meta:(party, n)=>`Recipients: ${party} • Text: message #${n}`,
       sendBtn:"✅ Send email (open draft)",
       statusLabel:"Status:",
@@ -378,6 +390,7 @@
       previewSummary:"Show subject & body",
       subjectLabel:"Subject:",
       files:(m, msg)=>`Files: ${m} + ${msg}`,
+      dash:"—",
       errorPrefix:"Error: "
     },
 
@@ -387,6 +400,7 @@
       subtitle:"Diese Seite hat 4 Bereiche. Jeder Bereich hat eine eigene Empfängerliste und eine eigene Nachricht. Ein Klick öffnet einen fertigen Entwurf in deiner Mail-App.",
       warnTitle:"Hinweis (wichtig):",
       warnText:"In-App-Browser (Instagram/X/Telegram) blockieren oft mailto:. Wenn es nicht klappt: Link im normalen Browser öffnen (Safari/Chrome) oder „In Browser öffnen“ wählen.",
+      hostingHint:"⚠️ Diese Seite muss über GitHub Pages (nicht im GitHub-Dateiviewer) geöffnet werden, sonst funktionieren Buttons/Dateien evtl. nicht.",
       toggle:"🌐 FA",
 
       sectionTitles:{
@@ -395,6 +409,7 @@
         grn:"E-Mail an Bündnis 90/Die Grünen senden",
         oth:"E-Mail an Andere senden"
       },
+      partyNames:{ cdu:"CDU/CSU", spd:"SPD", grn:"Greens / Alliance 90", oth:"Others" },
       meta:(party, n)=>`Empfänger: ${party} • Text: Nachricht #${n}`,
       sendBtn:"✅ E-Mail senden (Entwurf öffnen)",
       statusLabel:"Status:",
@@ -407,6 +422,7 @@
       previewSummary:"Betreff & Text anzeigen",
       subjectLabel:"Betreff:",
       files:(m, msg)=>`Dateien: ${m} + ${msg}`,
+      dash:"—",
       errorPrefix:"Fehler: "
     }
   };
@@ -414,25 +430,29 @@
   function setLang(lang){
     LANG = lang;
     const t = UI[LANG];
+
     document.documentElement.lang = LANG;
     document.documentElement.dir = t.dir;
     document.title = t.title;
 
+    // top
     document.getElementById("pageTitle").textContent = t.title;
     document.getElementById("pageSubtitle").textContent = t.subtitle;
     document.getElementById("warnTitle").textContent = t.warnTitle + " ";
     document.getElementById("warnText").textContent = t.warnText;
+    document.getElementById("hostingHint").textContent = t.hostingHint;
     document.getElementById("langBtn").textContent = t.toggle;
 
-    // section titles + meta + button text + static labels
+    // sections
     const map = [
-      ["cdu","CDU/CSU",1],
-      ["spd","SPD",2],
-      ["grn","Greens / Alliance 90",3],
-      ["oth","Others",4]
+      ["cdu", 1],
+      ["spd", 2],
+      ["grn", 3],
+      ["oth", 4]
     ];
 
-    for(const [key, party, n] of map){
+    for(const [key, n] of map){
+      const party = t.partyNames[key];
       document.getElementById(`title-${key}`).textContent = t.sectionTitles[key];
       document.getElementById(`meta-${key}`).textContent = t.meta(party, n);
       document.getElementById(`send-${key}`).textContent = t.sendBtn;
@@ -441,12 +461,11 @@
       document.getElementById(`previewSubjectLabel-${key}`).textContent = t.subjectLabel;
     }
 
-    // re-render statuses + bullets + file labels based on current loaded data
+    // rerender dynamic parts with current language
     renderAllPanels();
   }
 
   document.getElementById("langBtn").addEventListener("click", () => {
-    // cycle FA -> EN -> DE -> FA
     const next = (LANG === "fa") ? "en" : (LANG === "en") ? "de" : "fa";
     setLang(next);
   });
@@ -470,9 +489,7 @@
   }
 
   function parseMessage(text){
-    // Expected:
     // SUBJECT: ...
-    //
     // BODY:
     // ...
     const subjectLine = text.match(/^SUBJECT:\s*(.*)$/m);
@@ -504,8 +521,8 @@
     // status
     const statusEl = document.getElementById(`status-${key}`);
     if(statusEl){
-      const n = p.emails.length || 0;
-      statusEl.textContent = p.loaded ? t.loaded(n) : t.loaded(0);
+      const n = p.loaded ? (p.emails.length || 0) : 0;
+      statusEl.textContent = t.loaded(n);
     }
 
     // bullets
@@ -522,8 +539,8 @@
     // preview
     const subjEl = document.getElementById(`previewSubject-${key}`);
     const bodyEl = document.getElementById(`previewBody-${key}`);
-    if(subjEl) subjEl.textContent = p.subject || "—";
-    if(bodyEl) bodyEl.textContent = p.body || "—";
+    if(subjEl) subjEl.textContent = p.subject || t.dash;
+    if(bodyEl) bodyEl.textContent = p.body || t.dash;
 
     // files
     const filesEl = document.getElementById(`files-${key}`);
@@ -563,9 +580,6 @@
       p.body = parsed.body;
 
       p.loaded = true;
-
-      // Safety: if huge list, mailto may fail in some clients — still enable,
-      // but user might need to reduce list size.
       renderPanel(key);
     }catch(e){
       p.loaded = false;
@@ -582,7 +596,8 @@
     btn.addEventListener("click", () => {
       const p = PANELS[key];
       if(!p.loaded || !p.emails.length) return;
-      // IMPORTANT: must happen as a direct click handler for mobile mailto
+
+      // IMPORTANT: keep this directly in click handler (mobile mailto)
       window.location.href = buildMailto(p.emails, p.subject, p.body);
     });
   }
@@ -594,7 +609,7 @@
     attachSendHandler("grn");
     attachSendHandler("oth");
 
-    // apply default language first
+    // default language
     setLang("fa");
 
     // load all panels
