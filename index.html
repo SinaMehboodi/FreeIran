@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>Email Campaign – Freedom and Democracy for Iran</title>
+<title>Freedom and Democracy for Iran – Email Campaign</title>
 
 <style>
 
@@ -23,7 +23,7 @@ margin-top:40px;
 .container{
 border:1px solid #ddd;
 border-radius:12px;
-padding:20px;
+padding:24px;
 margin-top:20px;
 }
 
@@ -48,14 +48,14 @@ font-size:.9rem;
 
 <body>
 
-<h1>Email Campaign – Freedom and Democracy for Iran</h1>
+<h1>Freedom and Democracy for Iran</h1>
 
 <div class="container">
 
 <h2>English</h2>
 
 <p>
-This page allows citizens to easily send a prepared email to members of the German Bundestag and other political institutions.
+This page allows citizens to easily send a prepared email to members of the German Bundestag and relevant government offices.
 </p>
 
 <p>
@@ -63,18 +63,12 @@ The goal is to raise awareness and encourage political support for the Iranian p
 </p>
 
 <p>
-The email calls on political representatives to continue supporting the Iranian people in their pursuit of a free and democratic future.
-</p>
-
-<p>
-When you click the button below, your email application will open with a prepared message.  
-You can review, edit or cancel the message before sending it.
+When you click the button below, your email application will open with a prepared message addressed to political representatives.
 </p>
 
 <p class="small">
-No data is collected.  
-No email is sent automatically.  
-You remain fully in control of the message.
+No data is collected and no email is sent automatically.  
+You remain fully in control of the message before sending it.
 </p>
 
 </div>
@@ -92,17 +86,12 @@ Ziel ist es, Aufmerksamkeit für den Freiheits- und Demokratiekampf des iranisch
 </p>
 
 <p>
-Die E-Mail fordert politische Vertreter dazu auf, das iranische Volk weiterhin auf seinem Weg zu Freiheit und Demokratie zu unterstützen.
-</p>
-
-<p>
-Wenn Sie auf den Button klicken, öffnet sich Ihre E-Mail-App mit einer vorbereiteten Nachricht.  
-Sie können die E-Mail vor dem Versand prüfen, bearbeiten oder abbrechen.
+Wenn Sie auf den Button klicken, öffnet sich Ihre E-Mail-App mit einer vorbereiteten Nachricht.
 </p>
 
 <p class="small">
 Es werden keine Daten gespeichert.  
-Es wird keine E-Mail automatisch versendet.
+Die E-Mail wird nicht automatisch versendet.
 </p>
 
 </div>
@@ -111,44 +100,63 @@ Es wird keine E-Mail automatisch versendet.
 
 <h2>Send Email</h2>
 
-<p>
-Click the button below to open your email application and send the prepared message.
-</p>
+<p>Click the button below to open your email application.</p>
 
 <button onclick="sendEmails()">📧 Send Email</button>
-
-<p class="small">
-Some social media apps block email links.  
-If it does not work, open this page in Safari or Chrome.
-</p>
 
 </div>
 
 <script>
 
-function sendEmails(){
+const SUBJECT = "Freiheit und Demokratie für Iran";
 
-const emails = [
+const BODY = `Sehr geehrte Damen und Herren Abgeordnete,
 
-"mailto:?bcc=email1,email2,email3&subject=Freiheit%20und%20Demokratie%20f%C3%BCr%20Iran",
+sehr geehrte Entscheidungsträger,
 
-"mailto:?bcc=email51,email52,email53&subject=Freiheit%20und%20Demokratie%20f%C3%BCr%20Iran",
+als in Deutschland ansässige Bürger iranischer Herkunft wenden wir uns mit einem dringlichen politischen Anliegen an Sie.
 
-"mailto:?bcc=email101,email102,email103&subject=Freiheit%20und%20Demokratie%20f%C3%BCr%20Iran"
+Angesichts der anhaltenden Bestrebungen des iranischen Volkes nach Freiheit und Rechtsstaatlichkeit fordern wir eine konsequente Unterstützung dieses historischen Transformationsprozesses.
+
+Wir unterstreichen die Unantastbarkeit der territorialen Integrität Irans.
+
+Um eine stabile Transition zu gewährleisten, unterstützen wir eine Übergangsführung unter Kronprinz Reza Pahlavi.
+
+Wir appellieren an die Bundesrepublik Deutschland, eine klare geopolitische Haltung einzunehmen und die iranische Bevölkerung in ihrem Streben nach Freiheit zu unterstützen.
+
+Mit vorzüglicher Hochachtung
+`;
+
+const CHUNKS_BCC = [
+
+/* PASTE YOUR EMAIL CHUNKS HERE */
+
+"sanae.abdi@bundestag.de,valentin.abel@bundestag.de,knut.abraham@bundestag.de",
+
+"katja.adler@bundestag.de,stephanie.aeffner@bundestag.de,adis.ahmetovic@bundestag.de"
+
+/* continue with your chunks */
 
 ];
+
+function sendEmails(){
 
 let i=0;
 
 function openNext(){
 
-if(i<emails.length){
+if(i < CHUNKS_BCC.length){
 
-window.location.href = emails[i];
+const mailto =
+"mailto:?bcc=" + CHUNKS_BCC[i] +
+"&subject=" + encodeURIComponent(SUBJECT) +
+"&body=" + encodeURIComponent(BODY);
+
+window.location.href = mailto;
 
 i++;
 
-setTimeout(openNext,1200);
+setTimeout(openNext,1500);
 
 }
 
