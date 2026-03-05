@@ -1,171 +1,265 @@
 <!doctype html>
-<html lang="en">
+<html lang="de">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<title>Freedom and Democracy for Iran – Email Campaign</title>
-
-<style>
-
-body{
-font-family:system-ui,Arial;
-max-width:900px;
-margin:40px auto;
-padding:0 20px;
-line-height:1.6;
-}
-
-h1,h2{
-margin-top:40px;
-}
-
-.container{
-border:1px solid #ddd;
-border-radius:12px;
-padding:24px;
-margin-top:20px;
-}
-
-button{
-font-size:20px;
-padding:16px 28px;
-border-radius:12px;
-border:0;
-background:black;
-color:white;
-cursor:pointer;
-margin-top:20px;
-}
-
-.small{
-opacity:.75;
-font-size:.9rem;
-}
-
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Email-Aktion – Bundestag</title>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:900px;margin:40px auto;padding:0 16px;line-height:1.5}
+    .card{border:1px solid #111;border-radius:16px;padding:18px 16px;margin:14px 0}
+    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    button,a.btn{
+      display:inline-block;padding:14px 18px;border-radius:12px;border:1px solid #111;
+      background:#111;color:#fff;text-decoration:none;font-weight:800;cursor:pointer
+    }
+    button.secondary{background:#fff;color:#111}
+    button:disabled{opacity:.45;cursor:not-allowed}
+    .small{opacity:.75;font-size:.95rem}
+    textarea{
+      width:100%;min-height:160px;border-radius:12px;border:1px solid #111;padding:12px;
+      font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:12.5px
+    }
+    .pill{display:inline-block;padding:6px 10px;border:1px solid #111;border-radius:999px;font-weight:700}
+    hr{border:0;border-top:1px solid #ddd;margin:18px 0}
+  </style>
 </head>
-
 <body>
 
-<h1>Freedom and Democracy for Iran</h1>
+  <h1>📧 Email an Bundestag senden</h1>
+  <p class="small">Diese Seite öffnet deine Mail-App mit vorbereiteter Nachricht. Du kannst die Email vor dem Senden prüfen/bearbeiten.</p>
 
-<div class="container">
+  <div class="card">
+    <h2>1) Empfänger laden</h2>
 
-<h2>English</h2>
+    <p class="small"><span class="pill">Option A</span> Emails hier einfügen (eine pro Zeile). Dann “Chunks erstellen” drücken.</p>
+    <textarea id="emailsInput" placeholder="Beispiel:
+sanae.abdi@bundestag.de
+valentin.abel@bundestag.de
+knut.abraham@bundestag.de
+..."></textarea>
 
-<p>
-This page allows citizens to easily send a prepared email to members of the German Bundestag and relevant government offices.
-</p>
+    <div class="row" style="margin-top:10px">
+      <button id="buildBtn" class="secondary">🧩 Chunks erstellen</button>
+      <button id="loadBtn" class="secondary">⬇️ Emails aus emails.txt laden</button>
+      <span class="small" id="loadStatus">Keine Emails geladen.</span>
+    </div>
 
-<p>
-The goal is to raise awareness and encourage political support for the Iranian people's struggle for freedom, democracy and human rights.
-</p>
+    <p class="small">
+      <span class="pill">Option B (empfohlen)</span> Lege eine Datei <b>emails.txt</b> in dein GitHub Repo (gleicher Ordner wie index.html).
+      Jede Email in eine neue Zeile. Dann funktioniert “Emails aus emails.txt laden”.
+    </p>
 
-<p>
-When you click the button below, your email application will open with a prepared message addressed to political representatives.
-</p>
+    <hr />
 
-<p class="small">
-No data is collected and no email is sent automatically.  
-You remain fully in control of the message before sending it.
-</p>
+    <div class="row">
+      <label class="small"><b>Chunk-Größe:</b></label>
+      <input id="chunkSize" type="number" min="10" max="80" value="50" style="width:90px;padding:10px;border-radius:10px;border:1px solid #111">
+      <span class="small">(Empfohlen: 40–60)</span>
+    </div>
 
-</div>
+    <p class="small">Status: <b><span id="status">bereit</span></b></p>
+  </div>
 
-<div class="container">
+  <div class="card">
+    <h2>2) Senden</h2>
+    <p>Tippe auf <b>Start</b>. Danach kannst du mit <b>Nächste Email öffnen</b> weitergehen.</p>
 
-<h2>Deutsch</h2>
+    <div class="row">
+      <button id="startBtn" disabled>✅ Start</button>
+      <button id="nextBtn" class="secondary" disabled>➡️ Nächste Email öffnen</button>
+    </div>
 
-<p>
-Diese Seite ermöglicht es Bürgerinnen und Bürgern, eine vorbereitete E-Mail an Mitglieder des Deutschen Bundestages sowie an weitere politische Entscheidungsträger zu senden.
-</p>
+    <p class="small">
+      Hinweis: Viele In-App-Browser (Instagram/X/Telegram) blockieren mailto. Wenn es nicht klappt: Link in Safari/Chrome öffnen.
+    </p>
 
-<p>
-Ziel ist es, Aufmerksamkeit für den Freiheits- und Demokratiekampf des iranischen Volkes zu schaffen und politische Unterstützung dafür anzuregen.
-</p>
+    <p class="small">Aktueller Schritt: <span id="step">–</span></p>
+  </div>
 
-<p>
-Wenn Sie auf den Button klicken, öffnet sich Ihre E-Mail-App mit einer vorbereiteten Nachricht.
-</p>
+  <div class="card">
+    <h2>3) Manuell (immer zuverlässig)</h2>
+    <p class="small">Falls dein Handy das automatische Weiterklicken nicht mag, nutze diese Buttons:</p>
+    <div id="manualButtons" class="row"></div>
+  </div>
 
-<p class="small">
-Es werden keine Daten gespeichert.  
-Die E-Mail wird nicht automatisch versendet.
-</p>
+  <!-- ✅ DESCRIPTION BELOW THE SENDING BOXES (as you requested) -->
+  <div class="card">
+    <h2>Worum geht es?</h2>
 
-</div>
+    <h3>Deutsch</h3>
+    <p>
+      Diese Seite ist ein zivilgesellschaftliches Tool, mit dem Bürgerinnen und Bürger eine vorbereitete Email an Mitglieder des Deutschen Bundestages
+      und relevante politische Stellen senden können.
+    </p>
+    <p>
+      <b>Ziel</b> ist es, Aufmerksamkeit für den Freiheits- und Demokratiekampf des iranischen Volkes zu schaffen und politische Unterstützung für Menschenrechte,
+      Demokratie und den Schutz der Zivilbevölkerung einzufordern.
+    </p>
+    <p class="small">
+      Es werden keine Daten gesammelt. Es wird nichts automatisch verschickt. Du behältst die volle Kontrolle und kannst den Text vor dem Versand ändern.
+    </p>
 
-<div class="container" style="text-align:center">
+    <hr />
 
-<h2>Send Email</h2>
-
-<p>Click the button below to open your email application.</p>
-
-<button onclick="sendEmails()">📧 Send Email</button>
-
-</div>
+    <h3>English</h3>
+    <p>
+      This page is a civic tool that helps people send a prepared email to members of the German Bundestag and relevant political offices.
+    </p>
+    <p>
+      The <b>goal</b> is to raise awareness and encourage political support for human rights, democracy, and civilian protection in Iran.
+    </p>
+    <p class="small">
+      No data is collected. Nothing is sent automatically. You stay in full control and can edit the email before sending.
+    </p>
+  </div>
 
 <script>
+  // === EDIT THESE TWO TEXTS ONCE ===
+  const SUBJECT = "Freiheit und Demokratie für Iran";
 
-const SUBJECT = "Freiheit und Demokratie für Iran";
-
-const BODY = `Sehr geehrte Damen und Herren Abgeordnete,
-
+  const BODY = `Sehr geehrte Damen und Herren Abgeordnete,
 sehr geehrte Entscheidungsträger,
 
-als in Deutschland ansässige Bürger iranischer Herkunft wenden wir uns mit einem dringlichen politischen Anliegen an Sie.
+als in Deutschland ansässige Bürger iranischer Herkunft wenden wir uns mit einem dringlichen politischen Anliegen an Sie. Angesichts der anhaltenden Bestrebungen des iranischen Volkes nach Freiheit und Rechtsstaatlichkeit fordern wir eine konsequente und unverminderte Unterstützung dieses historischen Transformationsprozesses bis zum vollständigen Sturz der Islamischen Republik.
 
-Angesichts der anhaltenden Bestrebungen des iranischen Volkes nach Freiheit und Rechtsstaatlichkeit fordern wir eine konsequente Unterstützung dieses historischen Transformationsprozesses.
+In diesem Zusammenhang unterstreichen wir die absolute Unantastbarkeit der territorialen Integrität Irans. Jede zukünftige staatliche Ordnung muss zwingend auf dem souveränen Willen des iranischen Volkes basieren und völkerrechtlichen Standards entsprechen.
 
-Wir unterstreichen die Unantastbarkeit der territorialen Integrität Irans.
+Um eine stabile Transition zu gewährleisten und ein Machtvakuum zu verhindern, unterstützen wir die Federführung einer Übergangsverwaltung unter Kronprinz Reza Pahlavi. Er wird von weiten Teilen der iranischen Gesellschaft als legitime und einende Schlüsselfigur anerkannt, um das Land in eine freie und demokratische Zukunft zu führen.
 
-Um eine stabile Transition zu gewährleisten, unterstützen wir eine Übergangsführung unter Kronprinz Reza Pahlavi.
+Wir appellieren an Sie, im Rahmen Ihres Mandats sicherzustellen, dass die Bundesrepublik Deutschland eine klare geopolitische Haltung einnimmt. Dies schließt den maximalen Schutz der Zivilbevölkerung sowie die konsequente Isolierung des aktuellen Regimes ein.
 
-Wir appellieren an die Bundesrepublik Deutschland, eine klare geopolitische Haltung einzunehmen und die iranische Bevölkerung in ihrem Streben nach Freiheit zu unterstützen.
+Freiheit und universelle Menschenrechte sind keine bloßen regionalen Konzepte, sondern bilden das Fundament der westlichen Wertegemeinschaft. Wir erwarten daher von der deutschen Politik ein proaktives Engagement, das der historischen Tragweite dieser Freiheitsbewegung gerecht wird.
 
-Mit vorzüglicher Hochachtung
-`;
+Mit vorzüglicher Hochachtung`;
 
-const CHUNKS_BCC = [
+  // === INTERNAL STATE ===
+  let CHUNKS_BCC = [];
+  let current = 0;
 
-/* PASTE YOUR EMAIL CHUNKS HERE */
+  const statusEl = document.getElementById("status");
+  const stepEl = document.getElementById("step");
+  const startBtn = document.getElementById("startBtn");
+  const nextBtn = document.getElementById("nextBtn");
+  const buildBtn = document.getElementById("buildBtn");
+  const loadBtn = document.getElementById("loadBtn");
+  const loadStatus = document.getElementById("loadStatus");
+  const manual = document.getElementById("manualButtons");
+  const emailsInput = document.getElementById("emailsInput");
+  const chunkSizeInput = document.getElementById("chunkSize");
 
-"sanae.abdi@bundestag.de,valentin.abel@bundestag.de,knut.abraham@bundestag.de",
+  function normalizeEmails(raw) {
+    // split by newline / comma / spaces; keep only valid-ish emails
+    const parts = raw
+      .replace(/\r/g, "\n")
+      .split(/[\n,;\s]+/g)
+      .map(s => s.trim())
+      .filter(Boolean);
 
-"katja.adler@bundestag.de,stephanie.aeffner@bundestag.de,adis.ahmetovic@bundestag.de"
+    // basic filter to avoid junk
+    const emails = [];
+    const seen = new Set();
+    for (const p of parts) {
+      if (!p.includes("@")) continue;
+      const e = p.toLowerCase();
+      if (seen.has(e)) continue;
+      seen.add(e);
+      emails.push(e);
+    }
+    return emails;
+  }
 
-/* continue with your chunks */
+  function chunkEmails(emails, size) {
+    const chunks = [];
+    for (let i = 0; i < emails.length; i += size) {
+      chunks.push(emails.slice(i, i + size).join(","));
+    }
+    return chunks;
+  }
 
-];
+  function buildMailto(bccList) {
+    const subject = encodeURIComponent(SUBJECT);
+    const body = encodeURIComponent(BODY);
+    const bcc = encodeURIComponent(bccList);
+    return `mailto:?bcc=${bcc}&subject=${subject}&body=${body}`;
+  }
 
-function sendEmails(){
+  function renderManualButtons() {
+    manual.innerHTML = "";
+    CHUNKS_BCC.forEach((bcc, idx) => {
+      const a = document.createElement("a");
+      a.className = "btn";
+      a.href = buildMailto(bcc);
+      a.textContent = `Chunk ${idx+1} öffnen`;
+      manual.appendChild(a);
+    });
+  }
 
-let i=0;
+  function setReadyState() {
+    if (CHUNKS_BCC.length > 0) {
+      startBtn.disabled = false;
+      statusEl.textContent = `${CHUNKS_BCC.length} Chunks bereit`;
+      stepEl.textContent = "–";
+    } else {
+      startBtn.disabled = true;
+      nextBtn.disabled = true;
+      statusEl.textContent = "bereit (keine Emails)";
+      stepEl.textContent = "–";
+    }
+  }
 
-function openNext(){
+  function openCurrentChunk() {
+    const mailto = buildMailto(CHUNKS_BCC[current]);
+    window.location.href = mailto;
+    stepEl.textContent = `Chunk ${current+1} von ${CHUNKS_BCC.length}`;
+  }
 
-if(i < CHUNKS_BCC.length){
+  buildBtn.addEventListener("click", () => {
+    const size = Math.max(10, Math.min(80, parseInt(chunkSizeInput.value || "50", 10)));
+    chunkSizeInput.value = size;
 
-const mailto =
-"mailto:?bcc=" + CHUNKS_BCC[i] +
-"&subject=" + encodeURIComponent(SUBJECT) +
-"&body=" + encodeURIComponent(BODY);
+    const emails = normalizeEmails(emailsInput.value);
+    CHUNKS_BCC = chunkEmails(emails, size);
 
-window.location.href = mailto;
+    renderManualButtons();
+    setReadyState();
 
-i++;
+    loadStatus.textContent = `Aus Textfeld: ${emails.length} Emails → ${CHUNKS_BCC.length} Chunks.`;
+  });
 
-setTimeout(openNext,1500);
+  loadBtn.addEventListener("click", async () => {
+    try {
+      const res = await fetch("./emails.txt", { cache: "no-store" });
+      if (!res.ok) throw new Error("emails.txt nicht gefunden");
+      const text = await res.text();
 
-}
+      emailsInput.value = text.trim();
 
-}
+      // auto-build after loading
+      buildBtn.click();
+    } catch (e) {
+      loadStatus.textContent = "Konnte emails.txt nicht laden. Prüfe, ob die Datei im Repo liegt (gleicher Ordner wie index.html).";
+    }
+  });
 
-openNext();
+  startBtn.addEventListener("click", () => {
+    if (CHUNKS_BCC.length === 0) return;
+    current = 0;
+    nextBtn.disabled = false;
+    openCurrentChunk();
+  });
 
-}
+  nextBtn.addEventListener("click", () => {
+    if (current < CHUNKS_BCC.length - 1) {
+      current++;
+      openCurrentChunk();
+    } else {
+      stepEl.textContent = "Fertig – alle Chunks geöffnet.";
+      nextBtn.disabled = true;
+    }
+  });
 
+  // initial
+  setReadyState();
 </script>
 
 </body>
