@@ -1,137 +1,163 @@
 <!doctype html>
-<html lang="de">
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Email-Aktion – Bundestag</title>
-  <style>
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:840px;margin:40px auto;padding:0 16px;line-height:1.5}
-    .card{border:1px solid #111;border-radius:16px;padding:18px 16px;margin:14px 0}
-    button,a.btn{display:inline-block;padding:14px 18px;border-radius:12px;border:1px solid #111;background:#111;color:#fff;text-decoration:none;font-weight:800;cursor:pointer}
-    button.secondary{background:#fff;color:#111}
-    .small{opacity:.75;font-size:.95rem}
-    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;word-break:break-word}
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Email Campaign – Freedom and Democracy for Iran</title>
+
+<style>
+
+body{
+font-family:system-ui,Arial;
+max-width:900px;
+margin:40px auto;
+padding:0 20px;
+line-height:1.6;
+}
+
+h1,h2{
+margin-top:40px;
+}
+
+.container{
+border:1px solid #ddd;
+border-radius:12px;
+padding:20px;
+margin-top:20px;
+}
+
+button{
+font-size:20px;
+padding:16px 28px;
+border-radius:12px;
+border:0;
+background:black;
+color:white;
+cursor:pointer;
+margin-top:20px;
+}
+
+.small{
+opacity:.75;
+font-size:.9rem;
+}
+
+</style>
 </head>
+
 <body>
 
-  <h1>📧 Email an Bundestag senden</h1>
-  <p>Ein Klick öffnet deine Mail-App mit vorbereiteter Nachricht. Wegen technischer Limits wird die Empfängerliste in mehrere Emails (Chunks) geteilt.</p>
+<h1>Email Campaign – Freedom and Democracy for Iran</h1>
 
-  <div class="card">
-    <h2>Schritt 1: Start</h2>
-    <p>Tippe auf <b>Start</b>. Danach kannst du mit <b>Nächste Email öffnen</b> weitergehen.</p>
+<div class="container">
 
-    <button id="startBtn">✅ Start</button>
-    <button id="nextBtn" class="secondary" disabled>➡️ Nächste Email öffnen</button>
+<h2>English</h2>
 
-    <p class="small">
-      Hinweis: Viele In-App-Browser (Instagram/X/Telegram) blockieren mailto. Wenn es nicht klappt: Link in Safari/Chrome öffnen.
-    </p>
+<p>
+This page allows citizens to easily send a prepared email to members of the German Bundestag and other political institutions.
+</p>
 
-    <p class="small">Status: <span id="status">bereit</span></p>
-  </div>
+<p>
+The goal is to raise awareness and encourage political support for the Iranian people's struggle for freedom, democracy and human rights.
+</p>
 
-  <div class="card">
-    <h2>Optional: Einzelne Chunks manuell öffnen</h2>
-    <p class="small">Falls dein Handy das automatische Weiterklicken nicht mag, nutze diese Buttons:</p>
-    <div id="manualButtons"></div>
-  </div>
+<p>
+The email calls on political representatives to continue supporting the Iranian people in their pursuit of a free and democratic future.
+</p>
+
+<p>
+When you click the button below, your email application will open with a prepared message.  
+You can review, edit or cancel the message before sending it.
+</p>
+
+<p class="small">
+No data is collected.  
+No email is sent automatically.  
+You remain fully in control of the message.
+</p>
+
+</div>
+
+<div class="container">
+
+<h2>Deutsch</h2>
+
+<p>
+Diese Seite ermöglicht es Bürgerinnen und Bürgern, eine vorbereitete E-Mail an Mitglieder des Deutschen Bundestages sowie an weitere politische Entscheidungsträger zu senden.
+</p>
+
+<p>
+Ziel ist es, Aufmerksamkeit für den Freiheits- und Demokratiekampf des iranischen Volkes zu schaffen und politische Unterstützung dafür anzuregen.
+</p>
+
+<p>
+Die E-Mail fordert politische Vertreter dazu auf, das iranische Volk weiterhin auf seinem Weg zu Freiheit und Demokratie zu unterstützen.
+</p>
+
+<p>
+Wenn Sie auf den Button klicken, öffnet sich Ihre E-Mail-App mit einer vorbereiteten Nachricht.  
+Sie können die E-Mail vor dem Versand prüfen, bearbeiten oder abbrechen.
+</p>
+
+<p class="small">
+Es werden keine Daten gespeichert.  
+Es wird keine E-Mail automatisch versendet.
+</p>
+
+</div>
+
+<div class="container" style="text-align:center">
+
+<h2>Send Email</h2>
+
+<p>
+Click the button below to open your email application and send the prepared message.
+</p>
+
+<button onclick="sendEmails()">📧 Send Email</button>
+
+<p class="small">
+Some social media apps block email links.  
+If it does not work, open this page in Safari or Chrome.
+</p>
+
+</div>
 
 <script>
-  // === EDIT THESE TWO TEXTS ONCE ===
-  const SUBJECT = "Freiheit und Demokratie für Iran";
 
-  const BODY = `Sehr geehrte Damen und Herren Abgeordnete,
-sehr geehrte Entscheidungsträger,
+function sendEmails(){
 
-als in Deutschland ansässige Bürger iranischer Herkunft wenden wir uns mit einem dringlichen politischen Anliegen an Sie. Angesichts der anhaltenden Bestrebungen des iranischen Volkes nach Freiheit und Rechtsstaatlichkeit fordern wir eine konsequente und unverminderte Unterstützung dieses historischen Transformationsprozesses bis zum vollständigen Sturz der Islamischen Republik.
+const emails = [
 
-In diesem Zusammenhang unterstreichen wir die absolute Unantastbarkeit der territorialen Integrität Irans. Jede zukünftige staatliche Ordnung muss zwingend auf dem souveränen Willen des iranischen Volkes basieren und völkerrechtlichen Standards entsprechen.
+"mailto:?bcc=email1,email2,email3&subject=Freiheit%20und%20Demokratie%20f%C3%BCr%20Iran",
 
-Um eine stabile Transition zu gewährleisten und ein Machtvakuum zu verhindern, unterstützen wir die Federführung einer Übergangsverwaltung unter Kronprinz Reza Pahlavi. Er wird von weiten Teilen der iranischen Gesellschaft als legitime und einende Schlüsselfigur anerkannt, um das Land in eine freie und demokratische Zukunft zu führen.
+"mailto:?bcc=email51,email52,email53&subject=Freiheit%20und%20Demokratie%20f%C3%BCr%20Iran",
 
-Wir appellieren an Sie, im Rahmen Ihres Mandats sicherzustellen, dass die Bundesrepublik Deutschland eine klare geopolitische Haltung einnimmt. Dies schließt den maximalen Schutz der Zivilbevölkerung sowie die konsequente Isolierung des aktuellen Regimes ein.
+"mailto:?bcc=email101,email102,email103&subject=Freiheit%20und%20Demokratie%20f%C3%BCr%20Iran"
 
-Freiheit und universelle Menschenrechte sind keine bloßen regionalen Konzepte, sondern bilden das Fundament der westlichen Wertegemeinschaft. Wir erwarten daher von der deutschen Politik ein proaktives Engagement, das der historischen Tragweite dieser Freiheitsbewegung gerecht wird.
+];
 
-Mit vorzüglicher Hochachtung`;
+let i=0;
 
-  // === CHUNKS (BCC LISTS) ===
-  // Each entry = one email draft. Keep each chunk ~40–60 recipients.
-  const CHUNKS_BCC = [
-    // Chunk 1 (email-01)
-    "sanae.abdi@bundestag.de,valentin.abel@bundestag.de,knut.abraham@bundestag.de,katja.adler@bundestag.de,stephanie.aeffner@bundestag.de,adis.ahmetovic@bundestag.de,goekay.akbulut@bundestag.de,reem.alabali-radovan@bundestag.de,stephan.albani@bundestag.de,ali.al-dailami@bundestag.de,muhanad.al-halak@bundestag.de,renata.alt@bundestag.de,norbert.altenkamp@bundestag.de,philipp.amthor@bundestag.de,luise.amtsberg@bundestag.de,dagmar.andres@bundestag.de,niels.annen@bundestag.de,johannes.arlt@bundestag.de,christine.aschenberg-dugnus@bundestag.de,andreas.audretsch@bundestag.de,artur.auernhammer@bundestag.de,peter.aumer@bundestag.de,maik.aussendorf@bundestag.de,tobias.bacherle@bundestag.de,carolin.bachmann@bundestag.de,lisa.badum@bundestag.de,heike.baehrens@bundestag.de,dorothee.baer@bundestag.de,karl.baer@bundestag.de,annalena.baerbock@bundestag.de,ulrike.bahr@bundestag.de,daniel.baldy@bundestag.de,felix.banaszak@bundestag.de,nezahat.baradari@bundestag.de,thomas.bareiss@bundestag.de,soeren.bartol@bundestag.de,dietmar.bartsch@bundestag.de,baerbel.bas@bundestag.de,nicole.bauer@bundestag.de,christina.baum@bundestag.de,bernd.baumann@bundestag.de,canan.bayram@bundestag.de,katharina.beck@bundestag.de,roger.beckamp@bundestag.de,holger.becker@bundestag.de,jens.beeck@bundestag.de,lukas.benner@bundestag.de,juergen.berghahn@bundestag.de,andre.berghegger@bundestag.de,bengt.bergt@bundestag.de",
+function openNext(){
 
-    // Chunk 2 (email-02)
-    "marc.bernhard@bundestag.de,peter.beyer@bundestag.de,marc.biadacz@bundestag.de,steffen.bilger@bundestag.de,matthias-w.birkwald@bundestag.de,jakob.blankenburg@bundestag.de,andreas.bleck@bundestag.de,rene.bochmann@bundestag.de,ingo.bodtke@bundestag.de,peter.boehringer@bundestag.de,friedhelm.boginski@bundestag.de,gereon.bollmann@bundestag.de,simone.borchardt@bundestag.de,michael.brand@bundestag.de,jens.brandenburg@bundestag.de,mario.brandenburg@bundestag.de,dirk.brandes@bundestag.de,reinhard.brandl@bundestag.de,stephan.brandner@bundestag.de,franziska.brantner@bundestag.de,helge.braun@bundestag.de,juergen.braun@bundestag.de,silvia.breher@bundestag.de,sebastian.brehm@bundestag.de,heike.brehmer@bundestag.de,michael.breilmann@bundestag.de,leni.breymaier@bundestag.de,ralph.brinkhaus@bundestag.de,carsten.brodesser@bundestag.de,marlon.broehr@bundestag.de,agnieszka.brugger@bundestag.de,frank.bsirske@bundestag.de,sandra.bubendorfer-licht@bundestag.de,katrin.budde@bundestag.de,marcus.buehl@bundestag.de,yannick.bury@bundestag.de,marco.buschmann@bundestag.de,karlheinz.busen@bundestag.de,petr.bystron@bundestag.de,isabel.cademartori@bundestag.de,lars.castellucci@bundestag.de,anna.christmann@bundestag.de,tino.chrupalla@bundestag.de,gitta.connemann@bundestag.de,juergen.cosse@bundestag.de,joana.cotar@bundestag.de,carl-julius.cronenberg@bundestag.de,gottfried.curio@bundestag.de,mario.czaja@bundestag.de,bjoern.simon@bundestag.de",
+if(i<emails.length){
 
-    // Chunk 3 (email-03)
-    "sevim.dagdelen@bundestag.de,janosch.dahmen@bundestag.de,bernhard.daldrup@bundestag.de,astrid.damerow@bundestag.de,ekin.deligoez@bundestag.de,hakan.demir@bundestag.de,sandra.detzer@bundestag.de,karamba.diaby@bundestag.de,martin.diedenhofen@bundestag.de,jan.dieren@bundestag.de,thomas.dietz@bundestag.de,esther.dilcher@bundestag.de,sabine.dittmar@bundestag.de,bijan.djir-sarai@bundestag.de,alexander.dobrindt@bundestag.de,felix.doering@bundestag.de,anke.domscheit-berg@bundestag.de,michael.donth@bundestag.de,katharina.droege@bundestag.de,falko.drossmann@bundestag.de,deborah.duering@bundestag.de,christian.duerr@bundestag.de,hansjoerg.durz@bundestag.de,harald.ebner@bundestag.de,axel.echeverria@bundestag.de,leon.eckert@bundestag.de,ralph.edelhaeusser@bundestag.de,thomas.ehrhorn@bundestag.de,sonja.eichwede@bundestag.de,marcel.emmerich@bundestag.de,alexander.engelhard@bundestag.de,heike.engelhardt@bundestag.de,martina.englhardt-kopf@bundestag.de,thomas.erndl@bundestag.de,klaus.ernst@bundestag.de,wiebke.esdar@bundestag.de,saskia.esken@bundestag.de,michael.espendiller@bundestag.de,marcus.faber@bundestag.de,hermann.faerber@bundestag.de,ariane.faescher@bundestag.de,yasmin.fahimi@bundestag.de,robert.farle@bundestag.de,johannes.fechner@bundestag.de,uwe.feiler@bundestag.de,peter.felser@bundestag.de,enak.ferlemann@bundestag.de,susanne.ferschl@bundestag.de,emilia.fester@bundestag.de,sebastian.fiedler@bundestag.de",
+window.location.href = emails[i];
 
-    // Chunk 4 (email-04)
-    "daniel.foest@bundestag.de,edgar.franke@bundestag.de,thorsten.frei@bundestag.de,otto.fricke@bundestag.de,dietmar.friedhoff@bundestag.de,hans-peter.friedrich@bundestag.de,michael.frieser@bundestag.de,goetz.froemming@bundestag.de,markus.frohnmaier@bundestag.de,fabian.funke@bundestag.de,maximilian.funke-kaiser@bundestag.de,ingo.gaedechens@bundestag.de,schahina.gambir@bundestag.de,tessa.ganserer@bundestag.de,martin.gassner-herz@bundestag.de,matthias.gastel@bundestag.de,alexander.gauland@bundestag.de,manuel.gava@bundestag.de,thomas.gebhart@bundestag.de,kai.gehring@bundestag.de,jonas.geissler@bundestag.de,stefan.gelbhaar@bundestag.de,michael.gerdes@bundestag.de,knut.gerschau@bundestag.de,martin.gerster@bundestag.de,jan-niclas.gesenhues@bundestag.de,albrecht.glaser@bundestag.de,angelika.gloeckner@bundestag.de,hannes.gnauck@bundestag.de,katrin.goering-eckardt@bundestag.de,christian.goerke@bundestag.de,nicole.gohlke@bundestag.de,kay.gottschalk@bundestag.de,inge.graessle@bundestag.de,fabian.gramling@bundestag.de,armin.grau@bundestag.de,timon.gremmels@bundestag.de,kerstin.griese@bundestag.de,hermann.groehe@bundestag.de,uli.groetsch@bundestag.de,michael.grosse-broemer@bundestag.de,markus.gruebel@bundestag.de,monika.gruetters@bundestag.de,sabine.gruetzmacher@bundestag.de,manfred.grund@bundestag.de,erhard.grundl@bundestag.de,oliver.grundmann@bundestag.de,serap.gueler@bundestag.de,fritz.guentzler@bundestag.de,ates.guerpinar@bundestag.de",
+i++;
 
-    // Chunk 5 (email-05)
-    "olav.gutting@bundestag.de,gregor.gysi@bundestag.de,christian.haase@bundestag.de,robert.habeck@bundestag.de,thomas.hacker@bundestag.de,bettina.hagedorn@bundestag.de,rita.hagl-kehl@bundestag.de,andre.hahn@bundestag.de,florian.hahn@bundestag.de,metin.hakverdi@bundestag.de,reginald.hanke@bundestag.de,mariana.harder-kuehnel@bundestag.de,juergen.hardt@bundestag.de,philipp.hartewig@bundestag.de,sebastian.hartmann@bundestag.de,ulrike.harzer@bundestag.de,britta.hasselmann@bundestag.de,matthias.hauer@bundestag.de,jochen.haug@bundestag.de,stefan.heck@bundestag.de,dirk.heidenblut@bundestag.de,peter.heidt@bundestag.de,hubertus.heil@bundestag.de,mechthild.heil@bundestag.de,frauke.heiligenstadt@bundestag.de,thomas.heilmann@bundestag.de,gabriela.heinrich@bundestag.de,linda.heitmann@bundestag.de,matthias.helferich@bundestag.de,mark.helfrich@bundestag.de,katrin.helling-plahr@bundestag.de,wolfgang.hellmich@bundestag.de,kathrin.henneberger@bundestag.de,anke.hennig@bundestag.de,susanne.hennig-wellsow@bundestag.de,michael.hennrich@bundestag.de,marc.henrichmann@bundestag.de,markus.herbrand@bundestag.de,torsten.herbst@bundestag.de,bernhard.herrmann@bundestag.de,nadine.heselhaus@bundestag.de,martin.hess@bundestag.de,katja.hessel@bundestag.de,ansgar.heveling@bundestag.de,susanne.hierl@bundestag.de,karsten.hilse@bundestag.de,christian.hirte@bundestag.de,thomas.hitschler@bundestag.de,gero.hocker@bundestag.de",
+setTimeout(openNext,1200);
 
-    // Chunk 6 (email-06)
-    "nicole.hoechst@bundestag.de,manuel.hoeferlin@bundestag.de,bruno.hoenel@bundestag.de,alexander.hoffmann@bundestag.de,bettina.hoffmann@bundestag.de,christoph.hoffmann@bundestag.de,anton.hofreiter@bundestag.de,leif-erik.holm@bundestag.de,hendrik.hoppenstedt@bundestag.de,franziska.hoppermann@bundestag.de,jasmina.hostert@bundestag.de,reinhard.houben@bundestag.de,johannes.huber@bundestag.de,verena.hubertz@bundestag.de,markus.huempfer@bundestag.de,hubert.hueppe@bundestag.de,andrej.hunko@bundestag.de,gerrit.huy@bundestag.de,olaf.inderbeek@bundestag.de,erich.irlstorfer@bundestag.de,fabian.jacobi@bundestag.de,dieter.janecek@bundestag.de,steffen.janich@bundestag.de,anne.janssen@bundestag.de,thomas.jarzombek@bundestag.de,gyde.jensen@bundestag.de,marc.jongen@bundestag.de,andreas.jung@bundestag.de,ingmar.jung@bundestag.de,frank.junge@bundestag.de,josip.juratovic@bundestag.de,ann-veruschka.jurisch@bundestag.de,oliver.kaczmarek@bundestag.de,lamya.kaddor@bundestag.de,elisabeth.kaiser@bundestag.de,kirsten.kappert-gonther@bundestag.de,macit.karaahmetoglu@bundestag.de,anja.karliczek@bundestag.de,carlos.kasper@bundestag.de,anna.kassautzki@bundestag.de,gabriele.katzmarek@bundestag.de,malte.kaufmann@bundestag.de,michael.kaufmann@bundestag.de,rainer.keller@bundestag.de,michael.kellner@bundestag.de,ronja.kemmer@bundestag.de,franziska.kersten@bundestag.de,katja.keul@bundestag.de,stefan.keuter@bundestag.de"
+}
 
-    // 👉 Add Chunk 7 here, then Chunk 8, etc.
-  ];
+}
 
-  // === helpers ===
-  function buildMailto(bccList) {
-    const subject = encodeURIComponent(SUBJECT);
-    const body = encodeURIComponent(BODY);
-    const bcc = encodeURIComponent(bccList); // keeps commas safe
-    return `mailto:?bcc=${bcc}&subject=${subject}&body=${body}`;
-  }
+openNext();
 
-  let current = 0;
-  const statusEl = document.getElementById("status");
-  const startBtn = document.getElementById("startBtn");
-  const nextBtn = document.getElementById("nextBtn");
+}
 
-  function updateStatus() {
-    statusEl.textContent = `Chunk ${current+1} von ${CHUNKS_BCC.length}`;
-  }
-
-  function openCurrentChunk() {
-    const mailto = buildMailto(CHUNKS_BCC[current]);
-    window.location.href = mailto;
-    updateStatus();
-  }
-
-  startBtn.addEventListener("click", () => {
-    current = 0;
-    nextBtn.disabled = false;
-    openCurrentChunk();
-  });
-
-  nextBtn.addEventListener("click", () => {
-    if (current < CHUNKS_BCC.length - 1) {
-      current++;
-      openCurrentChunk();
-    } else {
-      statusEl.textContent = "Fertig – alle Chunks geöffnet.";
-      nextBtn.disabled = true;
-    }
-  });
-
-  // Manual buttons (always reliable)
-  const manual = document.getElementById("manualButtons");
-  CHUNKS_BCC.forEach((bcc, idx) => {
-    const a = document.createElement("a");
-    a.className = "btn";
-    a.style.margin = "8px 8px 0 0";
-    a.href = buildMailto(bcc);
-    a.textContent = `Chunk ${idx+1} öffnen`;
-    manual.appendChild(a);
-  });
-
-  statusEl.textContent = `bereit (${CHUNKS_BCC.length} Chunks geladen)`;
 </script>
 
 </body>
