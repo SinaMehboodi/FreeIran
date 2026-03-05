@@ -1,3 +1,103 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Email-Aktion – Bundestag</title>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:860px;margin:40px auto;padding:0 16px;line-height:1.55}
+    h1{margin:0 0 10px}
+    .card{border:1px solid #111;border-radius:16px;padding:18px 16px;margin:14px 0}
+    .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+    label{font-weight:700}
+    input[type="number"]{width:120px;padding:10px 12px;border-radius:12px;border:1px solid #111;font-size:16px}
+    button,a.btn{
+      display:inline-block;padding:14px 18px;border-radius:12px;border:1px solid #111;
+      background:#111;color:#fff;text-decoration:none;font-weight:800;cursor:pointer
+    }
+    button.secondary{background:#fff;color:#111}
+    button:disabled{opacity:.5;cursor:not-allowed}
+    .small{opacity:.8;font-size:.95rem}
+    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;word-break:break-word}
+    .warn{background:#fff8e1;border:1px solid #e6d38a}
+    details summary{cursor:pointer;font-weight:800}
+    .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+    .chip{border:1px solid #111;border-radius:999px;padding:6px 10px;background:#fff;cursor:pointer;font-weight:700}
+  </style>
+</head>
+<body>
+
+  <h1>📧 Email-Aktion an den Bundestag</h1>
+  <p class="small">
+    Ein Klick öffnet deine Mail-App mit einer vorbereiteten Nachricht.
+    Die Empfänger werden automatisch aus <span class="mono">emails.txt</span> geladen und in Chunks aufgeteilt.
+  </p>
+
+  <div class="card">
+    <div class="row" style="justify-content:space-between">
+      <div class="row">
+        <label for="chunkSize">Chunk-Größe:</label>
+        <input id="chunkSize" type="number" min="1" step="1" value="60" />
+        <div class="chips" aria-label="Schnellauswahl Chunk-Größe">
+        </div>
+      </div>
+
+      <div class="row">
+        <button id="sendBtn" disabled>✅ Send (open draft)</button>
+        <button id="nextBtn" class="secondary" disabled>➡️ Next chunk</button>
+      </div>
+    </div>
+
+    <p class="small" style="margin-top:12px">
+      Status: <span id="status">Lade emails.txt …</span>
+    </p>
+
+    <div class="card warn" style="margin-top:14px">
+      <b>Hinweis (wichtig):</b>
+      <span class="small">
+        In-App-Browser (Instagram/X/Telegram) blockieren oft <span class="mono">mailto:</span>.
+        Wenn es nicht klappt: Link im normalen Browser öffnen (Safari/Chrome) oder „In Browser öffnen“ wählen.
+      </span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:0">Worum geht es?</h2>
+
+    <h3 style="margin-bottom:6px">Deutsch</h3>
+    <p style="margin-top:0">
+      Diese Aktion erstellt eine E-Mail an Mitglieder des Deutschen Bundestags. Die Nachricht bittet darum,
+      die Unterstützung für das iranische Volk in seinem Streben nach Freiheit, Demokratie und Rechtsstaatlichkeit
+      konsequent fortzusetzen, die territoriale Integrität Irans zu respektieren und größtmöglichen Schutz für
+      Zivilistinnen und Zivilisten sicherzustellen. Betont wird außerdem, dass die zukünftige Ordnung auf dem Willen
+      des iranischen Volkes beruhen muss.
+    </p>
+
+    <h3 style="margin-bottom:6px">English</h3>
+    <p style="margin-top:0">
+      This action opens a pre-written email addressed to members of the German Bundestag. The message asks them to
+      continue supporting the Iranian people’s pursuit of freedom, democracy, and the rule of law, to respect Iran’s
+      territorial integrity, and to take maximum precautions to avoid harm to civilians. It emphasizes that any future
+      political order must be based on the will of the Iranian people.
+    </p>
+
+    <details style="margin-top:12px">
+      <summary>Show subject & body (for transparency)</summary>
+      <p class="small"><b>Subject:</b> <span class="mono" id="previewSubject"></span></p>
+      <pre class="mono" id="previewBody" style="white-space:pre-wrap"></pre>
+    </details>
+  </div>
+
+  <div class="card">
+    <details open>
+      <summary>Manual chunk buttons (if “Next” is blocked)</summary>
+      <div id="manualButtons" class="row" style="margin-top:12px"></div>
+      <p class="small" style="margin-top:10px">
+        If your phone blocks the Next button flow, use these to open each chunk manually.
+      </p>
+    </details>
+  </div>
+
 <script>
 let SUBJECT = "";
 let BODY = "";
