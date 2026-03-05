@@ -6,21 +6,19 @@
   <title>Email Campaign</title>
   <style>
     :root{
-      --bg0:#07131c;
-      --bg1:#071a26;
-      --bg2:#061018;
-
-      --card0:#0e2533;
-      --card1:#0b1f2c;
-
+      --bg0:#07131c; --bg1:#071a26; --bg2:#061018;
+      --card0:#0e2533; --card1:#0b1f2c;
       --border:rgba(255,255,255,.10);
       --text:#e8f2ff;
-      --muted:rgba(232,242,255,.78);
+      --muted:rgba(232,242,255,.75);
 
-      --cdu:#f0c94a;
-      --spd:#ff5a6a;
-      --grn:#38d47a;
-      --oth:#5aa6ff;
+      --cdu:#7aa7ff;
+      --spd:#ff7a7a;
+      --grn:#6ee7a5;
+      --oth:#a7b6ff;
+
+      --warn0: rgba(255,193,7,.10);
+      --warn1: rgba(255,193,7,.28);
     }
 
     body{
@@ -36,57 +34,37 @@
         linear-gradient(180deg, var(--bg1), var(--bg0) 55%, var(--bg2));
     }
 
-    .topbar{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:12px;
-      margin-bottom:14px;
-    }
-
-    .brand{
-      display:flex;
-      gap:12px;
-      align-items:center;
-    }
-
-    .brandIcon{
+    .topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}
+    .titleRow{display:flex;align-items:center;gap:12px}
+    .badgeIcon{
       width:34px;height:34px;border-radius:10px;
-      display:grid;place-items:center;
+      display:inline-flex;align-items:center;justify-content:center;
       background:rgba(255,255,255,.06);
       border:1px solid var(--border);
-      box-shadow:0 10px 30px rgba(0,0,0,.45);
+      box-shadow:0 10px 24px rgba(0,0,0,.35);
     }
-
-    h1{margin:0;font-size:34px;letter-spacing:.2px}
-    .subtitle{margin:6px 0 0;color:var(--muted);max-width:760px}
+    h1{margin:0;font-size:32px;letter-spacing:.2px}
+    .subtitle{margin:4px 0 0;color:var(--muted)}
 
     button, a.btn{
-      appearance:none;
-      border:1px solid rgba(255,255,255,.14);
-      background:rgba(255,255,255,.06);
-      color:var(--text);
+      display:inline-flex;align-items:center;justify-content:center;
       padding:12px 14px;
       border-radius:14px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.06);
+      color:#fff;
       font-weight:800;
       cursor:pointer;
       text-decoration:none;
-      display:inline-flex;
-      gap:10px;
-      align-items:center;
-      justify-content:center;
-      box-shadow:0 14px 40px rgba(0,0,0,.35);
-      transition:transform .06s ease, background .12s ease;
+      transition:transform .05s ease, background .2s ease;
       user-select:none;
     }
-    button:hover, a.btn:hover{ background:rgba(255,255,255,.085); }
-    button:active, a.btn:active{ transform:translateY(1px); }
-    button:disabled{opacity:.55;cursor:not-allowed;box-shadow:none}
+    button:active{transform:translateY(1px)}
+    button:disabled{opacity:.5;cursor:not-allowed}
 
     .langBtn{
-      min-width:84px;
-      justify-content:space-between;
-      padding-inline:14px;
+      padding:10px 12px;border-radius:14px;
+      background:rgba(255,255,255,.04);
     }
 
     .card{
@@ -95,689 +73,540 @@
         linear-gradient(180deg, var(--card0), var(--card1));
       border:1px solid var(--border);
       border-radius:22px;
-      padding:18px 16px;
+      padding:16px;
       margin:14px 0;
       box-shadow:
-        0 22px 55px rgba(0,0,0,.55),
+        0 22px 60px rgba(0,0,0,.55),
         0 1px 0 rgba(255,255,255,.05) inset;
     }
 
-    .note{
-      border-radius:22px;
-      padding:18px 16px;
-      border:1px solid rgba(240,201,74,.25);
-      background:linear-gradient(180deg, rgba(240,201,74,.12), rgba(240,201,74,.05));
+    .warn{
+      background:var(--warn0);
+      border:1px solid var(--warn1);
     }
-    .note b{font-weight:900}
 
     .grid{
       display:grid;
       grid-template-columns:1fr 1fr;
       gap:16px;
-      margin-top:14px;
     }
-    @media (max-width: 860px){
+    @media (max-width: 820px){
       .grid{grid-template-columns:1fr}
-      h1{font-size:30px}
     }
 
     .panel{
+      border-radius:22px;
+      padding:16px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.03);
       position:relative;
       overflow:hidden;
-      padding:18px;
-      border-radius:26px;
-      border:1px solid rgba(255,255,255,.12);
-      background:
-        radial-gradient(900px 300px at 10% 0%, rgba(255,255,255,.08), transparent 50%),
-        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03)),
-        linear-gradient(180deg, rgba(10,30,44,.98), rgba(8,24,35,.98));
-      box-shadow:0 22px 55px rgba(0,0,0,.55);
+      box-shadow:0 18px 44px rgba(0,0,0,.42);
     }
-
     .panel::before{
       content:"";
       position:absolute;inset:-2px;
-      border-radius:28px;
+      opacity:.22;
+      background: radial-gradient(900px 320px at 0% 0%, var(--accent), transparent 55%);
       pointer-events:none;
-      opacity:.9;
-      background:linear-gradient(90deg, rgba(255,255,255,.00), rgba(255,255,255,.08), rgba(255,255,255,.00));
-      mask:linear-gradient(#000,#000) content-box, linear-gradient(#000,#000);
-      -webkit-mask:linear-gradient(#000,#000) content-box, linear-gradient(#000,#000);
-      padding:2px;
     }
 
     .panelHeader{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      margin-bottom:10px;
+      display:flex;justify-content:space-between;align-items:flex-start;gap:10px;
+      position:relative;
     }
-
-    .panelTitle{
-      margin:0;
-      font-size:20px;
-      font-weight:950;
-      letter-spacing:.2px;
-    }
-
+    .panelTitle{margin:0;font-size:22px;line-height:1.25}
     .pill{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
+      display:inline-flex;align-items:center;gap:8px;
       padding:8px 12px;
       border-radius:999px;
-      border:1px solid rgba(255,255,255,.14);
-      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.16);
+      background:rgba(0,0,0,.15);
       font-weight:900;
-      font-size:13px;
       white-space:nowrap;
     }
-    .dot{width:9px;height:9px;border-radius:99px;display:inline-block}
-
-    .meta{
-      margin:0;
-      color:rgba(232,242,255,.82);
-      font-size:14px;
-    }
-    .meta b{color:rgba(232,242,255,.95)}
+    .dot{width:10px;height:10px;border-radius:999px;background:var(--accent);box-shadow:0 0 0 3px rgba(255,255,255,.06)}
+    .meta{margin:10px 0 12px;color:var(--muted);position:relative}
 
     .sendBox{
-      margin-top:14px;
+      position:relative;
       border-radius:18px;
-      border:1px solid rgba(255,255,255,.12);
-      background:rgba(0,0,0,.18);
       padding:14px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(0,0,0,.16);
     }
+
     .sendBtn{
       width:100%;
-      padding:14px 16px;
+      padding:14px 14px;
       border-radius:16px;
-      font-size:16px;
       background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.16);
+      font-size:16px;
     }
 
-    .statusLine{
-      margin:12px 2px 0;
-      color:rgba(232,242,255,.78);
-      font-size:14px;
-    }
+    .statusLine{margin-top:10px;color:var(--muted)}
+    .bullets{margin:10px 0 0 18px;color:var(--muted)}
+    .bullets li{margin:6px 0}
 
-    ul.bullets{
-      margin:10px 0 0;
-      padding-inline-start:18px;
-      color:rgba(232,242,255,.82);
-    }
-    ul.bullets li{ margin:6px 0; }
-
-    details{
-      margin-top:12px;
-      border-top:1px solid rgba(255,255,255,.12);
-      padding-top:10px;
-    }
-    summary{
-      cursor:pointer;
-      font-weight:900;
-      color:rgba(232,242,255,.92);
-    }
-
+    details{margin-top:10px}
+    details summary{cursor:pointer;font-weight:900}
     .mono{
       font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
       unicode-bidi:plaintext;
       word-break:break-word;
-      color:rgba(232,242,255,.9);
     }
-
-    .files{
-      margin-top:10px;
-      color:rgba(232,242,255,.55);
-      font-size:13px;
+    pre.mono{
+      white-space:pre-wrap;
+      background:rgba(0,0,0,.22);
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:14px;
+      padding:12px;
+      margin:10px 0 0;
+      color:rgba(232,242,255,.92);
     }
-
-    /* Accent per panel */
-    .accent-cdu{ box-shadow:0 22px 55px rgba(0,0,0,.55), 0 0 0 1px rgba(240,201,74,.18) inset; }
-    .accent-spd{ box-shadow:0 22px 55px rgba(0,0,0,.55), 0 0 0 1px rgba(255,90,106,.18) inset; }
-    .accent-grn{ box-shadow:0 22px 55px rgba(0,0,0,.55), 0 0 0 1px rgba(56,212,122,.18) inset; }
-    .accent-oth{ box-shadow:0 22px 55px rgba(0,0,0,.55), 0 0 0 1px rgba(90,166,255,.18) inset; }
+    .files{margin-top:10px;color:var(--muted);font-size:.95rem}
+    .error{color:#ffb4b4}
   </style>
 </head>
 
 <body>
 
   <div class="topbar">
-    <div class="brand">
-      <div class="brandIcon">✉️</div>
+    <div class="titleRow">
+      <div class="badgeIcon">✉️</div>
       <div>
-        <h1 id="pageTitle">Email Campaign</h1>
-        <p class="subtitle" id="pageSubtitle">
-          This page contains 4 sections. Each section has its own email list and its own message. One click opens a ready draft in your email app.
-        </p>
+        <h1 id="pageTitle">کمپین ایمیل</h1>
+        <div class="subtitle" id="pageSubtitle"></div>
       </div>
     </div>
-
-    <button id="langBtn" class="langBtn" type="button">
-      <span>🌐</span><span id="langBtnLabel">EN</span>
-    </button>
+    <button id="langBtn" class="langBtn" type="button">🌐 EN</button>
   </div>
 
-  <div class="card note">
-    <b id="noteTitle">Note (important):</b>
-    <span id="noteText">
-      In-app browsers (Instagram/X/Telegram) often block mailto:. If it doesn’t work: open the link in Safari/Chrome or choose “Open in browser”.
-    </span>
+  <div class="card warn">
+    <b id="warnTitle"></b>
+    <span id="warnText" style="color:var(--muted)"></span>
   </div>
 
-  <div class="grid" id="panels">
+  <div class="grid">
 
     <!-- CDU/CSU -->
-    <section class="panel accent-cdu" id="panel-cdu">
+    <section class="panel" style="--accent: var(--cdu)">
       <div class="panelHeader">
-        <h2 class="panelTitle" id="title-cdu">Send email to CDU/CSU</h2>
-        <span class="pill"><span class="dot" style="background:var(--cdu)"></span><span id="pill-cdu">CDU/CSU</span></span>
+        <div>
+          <h2 class="panelTitle" id="title-cdu"></h2>
+          <div class="meta" id="meta-cdu"></div>
+        </div>
+        <div class="pill"><span class="dot"></span><span>CDU/CSU</span></div>
       </div>
 
-      <p class="meta">
-        <span id="metaLabelRecipients-cdu">Recipients:</span> <b id="metaRecipients-cdu">—</b>
-        <span class="mono"> • </span>
-        <span id="metaLabelText-cdu">Text:</span> <b id="metaText-cdu">—</b>
-      </p>
-
       <div class="sendBox">
-        <button class="sendBtn" id="send-cdu" disabled>✅ Send email (open draft)</button>
-        <div class="statusLine"><span id="statusLabel-cdu">Status:</span> <span id="status-cdu">—</span></div>
+        <button class="sendBtn" id="send-cdu" disabled></button>
+
+        <div class="statusLine">
+          <span id="statusLabel-cdu"></span>
+          <span id="status-cdu">—</span>
+          <span id="error-cdu" class="error"></span>
+        </div>
 
         <ul class="bullets" id="bullets-cdu"></ul>
 
         <details>
-          <summary id="previewSummary-cdu">Show subject & body</summary>
-          <div class="statusLine"><b id="previewSubjectLabel-cdu">Subject:</b> <span class="mono" id="previewSubject-cdu"></span></div>
-          <pre class="mono" id="previewBody-cdu" style="white-space:pre-wrap;margin:10px 0 0"></pre>
+          <summary id="previewSummary-cdu"></summary>
+          <div class="statusLine"><b id="previewSubjectLabel-cdu"></b> <span class="mono" id="previewSubject-cdu"></span></div>
+          <pre class="mono" id="previewBody-cdu"></pre>
         </details>
 
-        <div class="files" id="files-cdu">Files: mail1.txt + message1.txt</div>
+        <div class="files" id="files-cdu"></div>
       </div>
     </section>
 
     <!-- SPD -->
-    <section class="panel accent-spd" id="panel-spd">
+    <section class="panel" style="--accent: var(--spd)">
       <div class="panelHeader">
-        <h2 class="panelTitle" id="title-spd">Send email to SPD</h2>
-        <span class="pill"><span class="dot" style="background:var(--spd)"></span><span id="pill-spd">SPD</span></span>
+        <div>
+          <h2 class="panelTitle" id="title-spd"></h2>
+          <div class="meta" id="meta-spd"></div>
+        </div>
+        <div class="pill"><span class="dot"></span><span>SPD</span></div>
       </div>
 
-      <p class="meta">
-        <span id="metaLabelRecipients-spd">Recipients:</span> <b id="metaRecipients-spd">—</b>
-        <span class="mono"> • </span>
-        <span id="metaLabelText-spd">Text:</span> <b id="metaText-spd">—</b>
-      </p>
-
       <div class="sendBox">
-        <button class="sendBtn" id="send-spd" disabled>✅ Send email (open draft)</button>
-        <div class="statusLine"><span id="statusLabel-spd">Status:</span> <span id="status-spd">—</span></div>
+        <button class="sendBtn" id="send-spd" disabled></button>
+
+        <div class="statusLine">
+          <span id="statusLabel-spd"></span>
+          <span id="status-spd">—</span>
+          <span id="error-spd" class="error"></span>
+        </div>
 
         <ul class="bullets" id="bullets-spd"></ul>
 
         <details>
-          <summary id="previewSummary-spd">Show subject & body</summary>
-          <div class="statusLine"><b id="previewSubjectLabel-spd">Subject:</b> <span class="mono" id="previewSubject-spd"></span></div>
-          <pre class="mono" id="previewBody-spd" style="white-space:pre-wrap;margin:10px 0 0"></pre>
+          <summary id="previewSummary-spd"></summary>
+          <div class="statusLine"><b id="previewSubjectLabel-spd"></b> <span class="mono" id="previewSubject-spd"></span></div>
+          <pre class="mono" id="previewBody-spd"></pre>
         </details>
 
-        <div class="files" id="files-spd">Files: mail2.txt + message2.txt</div>
+        <div class="files" id="files-spd"></div>
       </div>
     </section>
 
     <!-- Greens -->
-    <section class="panel accent-grn" id="panel-grn">
+    <section class="panel" style="--accent: var(--grn)">
       <div class="panelHeader">
-        <h2 class="panelTitle" id="title-grn">Send email to the Greens / Alliance 90</h2>
-        <span class="pill"><span class="dot" style="background:var(--grn)"></span><span id="pill-grn">Greens</span></span>
+        <div>
+          <h2 class="panelTitle" id="title-grn"></h2>
+          <div class="meta" id="meta-grn"></div>
+        </div>
+        <div class="pill"><span class="dot"></span><span>Greens</span></div>
       </div>
 
-      <p class="meta">
-        <span id="metaLabelRecipients-grn">Recipients:</span> <b id="metaRecipients-grn">—</b>
-        <span class="mono"> • </span>
-        <span id="metaLabelText-grn">Text:</span> <b id="metaText-grn">—</b>
-      </p>
-
       <div class="sendBox">
-        <button class="sendBtn" id="send-grn" disabled>✅ Send email (open draft)</button>
-        <div class="statusLine"><span id="statusLabel-grn">Status:</span> <span id="status-grn">—</span></div>
+        <button class="sendBtn" id="send-grn" disabled></button>
+
+        <div class="statusLine">
+          <span id="statusLabel-grn"></span>
+          <span id="status-grn">—</span>
+          <span id="error-grn" class="error"></span>
+        </div>
 
         <ul class="bullets" id="bullets-grn"></ul>
 
         <details>
-          <summary id="previewSummary-grn">Show subject & body</summary>
-          <div class="statusLine"><b id="previewSubjectLabel-grn">Subject:</b> <span class="mono" id="previewSubject-grn"></span></div>
-          <pre class="mono" id="previewBody-grn" style="white-space:pre-wrap;margin:10px 0 0"></pre>
+          <summary id="previewSummary-grn"></summary>
+          <div class="statusLine"><b id="previewSubjectLabel-grn"></b> <span class="mono" id="previewSubject-grn"></span></div>
+          <pre class="mono" id="previewBody-grn"></pre>
         </details>
 
-        <div class="files" id="files-grn">Files: mail3.txt + message3.txt</div>
+        <div class="files" id="files-grn"></div>
       </div>
     </section>
 
     <!-- Others -->
-    <section class="panel accent-oth" id="panel-oth">
+    <section class="panel" style="--accent: var(--oth)">
       <div class="panelHeader">
-        <h2 class="panelTitle" id="title-oth">Send email to Others</h2>
-        <span class="pill"><span class="dot" style="background:var(--oth)"></span><span id="pill-oth">Others</span></span>
+        <div>
+          <h2 class="panelTitle" id="title-oth"></h2>
+          <div class="meta" id="meta-oth"></div>
+        </div>
+        <div class="pill"><span class="dot"></span><span>Others</span></div>
       </div>
 
-      <p class="meta">
-        <span id="metaLabelRecipients-oth">Recipients:</span> <b id="metaRecipients-oth">—</b>
-        <span class="mono"> • </span>
-        <span id="metaLabelText-oth">Text:</span> <b id="metaText-oth">—</b>
-      </p>
-
       <div class="sendBox">
-        <button class="sendBtn" id="send-oth" disabled>✅ Send email (open draft)</button>
-        <div class="statusLine"><span id="statusLabel-oth">Status:</span> <span id="status-oth">—</span></div>
+        <button class="sendBtn" id="send-oth" disabled></button>
+
+        <div class="statusLine">
+          <span id="statusLabel-oth"></span>
+          <span id="status-oth">—</span>
+          <span id="error-oth" class="error"></span>
+        </div>
 
         <ul class="bullets" id="bullets-oth"></ul>
 
         <details>
-          <summary id="previewSummary-oth">Show subject & body</summary>
-          <div class="statusLine"><b id="previewSubjectLabel-oth">Subject:</b> <span class="mono" id="previewSubject-oth"></span></div>
-          <pre class="mono" id="previewBody-oth" style="white-space:pre-wrap;margin:10px 0 0"></pre>
+          <summary id="previewSummary-oth"></summary>
+          <div class="statusLine"><b id="previewSubjectLabel-oth"></b> <span class="mono" id="previewSubject-oth"></span></div>
+          <pre class="mono" id="previewBody-oth"></pre>
         </details>
 
-        <div class="files" id="files-oth">Files: mail4.txt + message4.txt</div>
+        <div class="files" id="files-oth"></div>
       </div>
     </section>
 
   </div>
 
 <script>
-/* ============================================================
-   CONFIG: 4 lists + 4 messages
-   - Put these files in the same folder as index.html (GitHub Pages)
-   - Each mail list file: one email per line (comments allowed with #)
-   - Each message file format:
-       SUBJECT: ...
-       (optional blank line)
-       BODY:
-       ... multi-line ...
-============================================================ */
-const SECTIONS = [
-  { key:"cdu", mailFile:"mail1.txt", msgFile:"message1.txt" },
-  { key:"spd", mailFile:"mail2.txt", msgFile:"message2.txt" },
-  { key:"grn", mailFile:"mail3.txt", msgFile:"message3.txt" },
-  { key:"oth", mailFile:"mail4.txt", msgFile:"message4.txt" },
-];
+  // =========================
+  // Language system (FA default)
+  // =========================
+  let LANG = "fa"; // default
 
-/* ============================================================
-   i18n (FA default). EVERYTHING that appears on screen is here.
-============================================================ */
-let LANG = "fa"; // default Persian
+  const UI = {
+    fa: {
+      dir:"rtl",
+      title:"کمپین ایمیل",
+      subtitle:"این صفحه ۴ بخش دارد. هر بخش لیست گیرندگان و متن مخصوص خودش را دارد. با یک کلیک، پیش‌نویس آماده در اپ ایمیل شما باز می‌شود.",
+      warnTitle:"نکته مهم:",
+      warnText:"مرورگرهای داخل اپ‌ها (Instagram/X/Telegram) اغلب mailto: را بلاک می‌کنند. اگر کار نکرد: لینک را در مرورگر اصلی (Safari/Chrome) باز کنید یا گزینه «Open in browser» را بزنید.",
+      toggle:"🌐 EN",
 
-const I18N = {
-  fa: {
-    dir:"rtl",
-    langBtnNext:"EN",
-    pageTitle:"کمپین ایمیل",
-    pageSubtitle:"این صفحه ۴ بخش دارد. هر بخش یک لیست گیرنده و یک متن مخصوص خودش دارد. با یک کلیک، پیش‌نویس آماده در اپ ایمیل شما باز می‌شود.",
-    noteTitle:"نکته مهم:",
-    noteText:"مرورگرهای داخل اپ‌ها (Instagram/X/Telegram) اغلب mailto: را بلاک می‌کنند. اگر کار نکرد: لینک را در مرورگر اصلی (Safari/Chrome) باز کنید یا گزینه «Open in browser» را بزنید.",
-
-    labels:{
-      recipients:"گیرندگان:",
-      text:"متن:",
-      status:"وضعیت:",
-      send:"✅ ارسال ایمیل (باز کردن پیش‌نویس)",
-      show:"نمایش موضوع و متن",
-      subject:"موضوع:",
-      files:"فایل‌ها:"
-    },
-
-    titles:{
-      cdu:"ارسال ایمیل به CDU/CSU",
-      spd:"ارسال ایمیل به SPD",
-      grn:"ارسال ایمیل به سبزها / ائتلاف ۹۰",
-      oth:"ارسال ایمیل به سایرین",
-    },
-
-    pills:{
-      cdu:"CDU/CSU",
-      spd:"SPD",
-      grn:"Greens",
-      oth:"Others",
-    },
-
-    metaTextNames:{
-      cdu:"پیام #۱",
-      spd:"پیام #۲",
-      grn:"پیام #۳",
-      oth:"پیام #۴",
-    },
-
-    statusFmt:{
-      loading:(mailFile,msgFile)=>`در حال بارگذاری ${mailFile} و ${msgFile} …`,
+      sectionTitles:{
+        cdu:"ارسال ایمیل به CDU/CSU",
+        spd:"ارسال ایمیل به SPD",
+        grn:"ارسال ایمیل به سبزها / ائتلاف ۹۰",
+        oth:"ارسال ایمیل به سایرین"
+      },
+      meta:(party, n)=>`گیرندگان: ${party} • متن: پیام #${n}`,
+      sendBtn:"✅ ارسال ایمیل (باز کردن پیش‌نویس)",
+      statusLabel:"وضعیت:",
       loaded:(n)=>`بارگذاری شد: ${n} ایمیل`,
-      empty:"هیچ ایمیلی پیدا نشد. فایل لیست را بررسی کنید.",
-      msgMissing:"موضوع/متن پیدا نشد. فایل پیام را بررسی کنید.",
-      error:(e)=>`خطا: ${e}`
+      bullets:[
+        "پیش‌نویس ایمیل با گیرندگان آماده می‌شود.",
+        "ارسال نهایی با خود شماست (در اپ ایمیل).",
+        "به‌صورت پیش‌فرض از BCC استفاده می‌شود."
+      ],
+      previewSummary:"نمایش موضوع و متن ایمیل",
+      subjectLabel:"موضوع:",
+      files:(m, msg)=>`فایل‌ها: ${m} + ${msg}`,
+      errorPrefix:"خطا: "
     },
 
-    bullets:[
-      "پیش‌نویس ایمیل با گیرندگان آماده می‌شود.",
-      "ارسال نهایی با خود شماست (در اپ ایمیل).",
-      "به‌صورت پیش‌فرض از BCC استفاده می‌شود."
-    ],
-    empty:"(خالی)"
-  },
+    en: {
+      dir:"ltr",
+      title:"Email Campaign",
+      subtitle:"This page has 4 sections. Each section has its own recipient list and its own message. One click opens a ready draft in your email app.",
+      warnTitle:"Note (important):",
+      warnText:"In-app browsers (Instagram/X/Telegram) often block mailto:. If it doesn’t work: open the link in Safari/Chrome or choose “Open in browser”.",
+      toggle:"🌐 DE",
 
-  en: {
-    dir:"ltr",
-    langBtnNext:"DE",
-    pageTitle:"Email Campaign",
-    pageSubtitle:"This page contains 4 sections. Each section has its own recipient list and its own message. One click opens a ready draft in your email app.",
-    noteTitle:"Note (important):",
-    noteText:"In-app browsers (Instagram/X/Telegram) often block mailto:. If it doesn’t work: open the link in Safari/Chrome or choose “Open in browser”.",
-
-    labels:{
-      recipients:"Recipients:",
-      text:"Text:",
-      status:"Status:",
-      send:"✅ Send email (open draft)",
-      show:"Show subject & body",
-      subject:"Subject:",
-      files:"Files:"
-    },
-
-    titles:{
-      cdu:"Send email to CDU/CSU",
-      spd:"Send email to SPD",
-      grn:"Send email to the Greens / Alliance 90",
-      oth:"Send email to Others",
-    },
-
-    pills:{
-      cdu:"CDU/CSU",
-      spd:"SPD",
-      grn:"Greens",
-      oth:"Others",
-    },
-
-    metaTextNames:{
-      cdu:"message #1",
-      spd:"message #2",
-      grn:"message #3",
-      oth:"message #4",
-    },
-
-    statusFmt:{
-      loading:(mailFile,msgFile)=>`Loading ${mailFile} and ${msgFile} …`,
+      sectionTitles:{
+        cdu:"Send email to CDU/CSU",
+        spd:"Send email to SPD",
+        grn:"Send email to the Greens / Alliance 90",
+        oth:"Send email to Others"
+      },
+      meta:(party, n)=>`Recipients: ${party} • Text: message #${n}`,
+      sendBtn:"✅ Send email (open draft)",
+      statusLabel:"Status:",
       loaded:(n)=>`Loaded: ${n} emails`,
-      empty:"No emails found. Check your list file.",
-      msgMissing:"Subject/body not found. Check your message file.",
-      error:(e)=>`Error: ${e}`
+      bullets:[
+        "A draft email with recipients is prepared.",
+        "Final sending is up to you (in your email app).",
+        "By default, BCC is used."
+      ],
+      previewSummary:"Show subject & body",
+      subjectLabel:"Subject:",
+      files:(m, msg)=>`Files: ${m} + ${msg}`,
+      errorPrefix:"Error: "
     },
 
-    bullets:[
-      "A draft email is prepared with the recipient list.",
-      "You send it manually (in your mail app).",
-      "By default, BCC is used."
-    ],
-    empty:"(empty)"
-  },
+    de: {
+      dir:"ltr",
+      title:"E-Mail-Aktion",
+      subtitle:"Diese Seite hat 4 Bereiche. Jeder Bereich hat eine eigene Empfängerliste und eine eigene Nachricht. Ein Klick öffnet einen fertigen Entwurf in deiner Mail-App.",
+      warnTitle:"Hinweis (wichtig):",
+      warnText:"In-App-Browser (Instagram/X/Telegram) blockieren oft mailto:. Wenn es nicht klappt: Link im normalen Browser öffnen (Safari/Chrome) oder „In Browser öffnen“ wählen.",
+      toggle:"🌐 FA",
 
-  de: {
-    dir:"ltr",
-    langBtnNext:"FA",
-    pageTitle:"Email-Aktion",
-    pageSubtitle:"Diese Seite hat 4 Bereiche. Jeder Bereich hat eine eigene Empfängerliste und eine eigene Nachricht. Ein Klick öffnet einen fertigen Entwurf in deiner Mail-App.",
-    noteTitle:"Hinweis (wichtig):",
-    noteText:"In-App-Browser (Instagram/X/Telegram) blockieren oft mailto:. Wenn es nicht klappt: Link im normalen Browser öffnen (Safari/Chrome) oder „In Browser öffnen“ wählen.",
-
-    labels:{
-      recipients:"Empfänger:",
-      text:"Text:",
-      status:"Status:",
-      send:"✅ E-Mail senden (Entwurf öffnen)",
-      show:"Betreff & Text anzeigen",
-      subject:"Betreff:",
-      files:"Dateien:"
-    },
-
-    titles:{
-      cdu:"E-Mail an CDU/CSU senden",
-      spd:"E-Mail an SPD senden",
-      grn:"E-Mail an Bündnis 90/Die Grünen senden",
-      oth:"E-Mail an Andere senden",
-    },
-
-    pills:{
-      cdu:"CDU/CSU",
-      spd:"SPD",
-      grn:"Greens",
-      oth:"Others",
-    },
-
-    metaTextNames:{
-      cdu:"Nachricht #1",
-      spd:"Nachricht #2",
-      grn:"Nachricht #3",
-      oth:"Nachricht #4",
-    },
-
-    statusFmt:{
-      loading:(mailFile,msgFile)=>`Lade ${mailFile} und ${msgFile} …`,
+      sectionTitles:{
+        cdu:"E-Mail an CDU/CSU senden",
+        spd:"E-Mail an SPD senden",
+        grn:"E-Mail an Bündnis 90/Die Grünen senden",
+        oth:"E-Mail an Andere senden"
+      },
+      meta:(party, n)=>`Empfänger: ${party} • Text: Nachricht #${n}`,
+      sendBtn:"✅ E-Mail senden (Entwurf öffnen)",
+      statusLabel:"Status:",
       loaded:(n)=>`Geladen: ${n} E-Mails`,
-      empty:"Keine E-Mails gefunden. Bitte Listendatei prüfen.",
-      msgMissing:"Betreff/Text nicht gefunden. Bitte Nachrichtendatei prüfen.",
-      error:(e)=>`Fehler: ${e}`
-    },
+      bullets:[
+        "Ein Entwurf mit Empfängern wird vorbereitet.",
+        "Das endgültige Senden machst du in deiner Mail-App.",
+        "Standardmäßig wird BCC verwendet."
+      ],
+      previewSummary:"Betreff & Text anzeigen",
+      subjectLabel:"Betreff:",
+      files:(m, msg)=>`Dateien: ${m} + ${msg}`,
+      errorPrefix:"Fehler: "
+    }
+  };
 
-    bullets:[
-      "Ein E-Mail-Entwurf wird mit Empfängern vorbereitet.",
-      "Du sendest final selbst (in deiner Mail-App).",
-      "Standardmäßig wird BCC verwendet."
-    ],
-    empty:"(leer)"
+  function setLang(lang){
+    LANG = lang;
+    const t = UI[LANG];
+    document.documentElement.lang = LANG;
+    document.documentElement.dir = t.dir;
+    document.title = t.title;
+
+    document.getElementById("pageTitle").textContent = t.title;
+    document.getElementById("pageSubtitle").textContent = t.subtitle;
+    document.getElementById("warnTitle").textContent = t.warnTitle + " ";
+    document.getElementById("warnText").textContent = t.warnText;
+    document.getElementById("langBtn").textContent = t.toggle;
+
+    // section titles + meta + button text + static labels
+    const map = [
+      ["cdu","CDU/CSU",1],
+      ["spd","SPD",2],
+      ["grn","Greens / Alliance 90",3],
+      ["oth","Others",4]
+    ];
+
+    for(const [key, party, n] of map){
+      document.getElementById(`title-${key}`).textContent = t.sectionTitles[key];
+      document.getElementById(`meta-${key}`).textContent = t.meta(party, n);
+      document.getElementById(`send-${key}`).textContent = t.sendBtn;
+      document.getElementById(`statusLabel-${key}`).textContent = t.statusLabel + " ";
+      document.getElementById(`previewSummary-${key}`).textContent = t.previewSummary;
+      document.getElementById(`previewSubjectLabel-${key}`).textContent = t.subjectLabel;
+    }
+
+    // re-render statuses + bullets + file labels based on current loaded data
+    renderAllPanels();
   }
-};
 
-function t(){ return I18N[LANG]; }
-function setDocLangDir(){
-  document.documentElement.lang = LANG;
-  document.documentElement.dir = t().dir;
-}
+  document.getElementById("langBtn").addEventListener("click", () => {
+    // cycle FA -> EN -> DE -> FA
+    const next = (LANG === "fa") ? "en" : (LANG === "en") ? "de" : "fa";
+    setLang(next);
+  });
 
-/* ============================================================
-   Helpers: parsing + mailto
-============================================================ */
-function normalizeEmails(text) {
-  return text
-    .split(/\r?\n/)
-    .map(l => l.trim())
-    .filter(Boolean)
-    .filter(l => !l.startsWith("#"));
-}
+  // =========================
+  // Panel logic (4 lists + 4 messages)
+  // =========================
+  const PANELS = {
+    cdu: { mailFile:"mail1.txt", msgFile:"message1.txt", emails:[], subject:"", body:"", loaded:false, error:"" },
+    spd: { mailFile:"mail2.txt", msgFile:"message2.txt", emails:[], subject:"", body:"", loaded:false, error:"" },
+    grn: { mailFile:"mail3.txt", msgFile:"message3.txt", emails:[], subject:"", body:"", loaded:false, error:"" },
+    oth: { mailFile:"mail4.txt", msgFile:"message4.txt", emails:[], subject:"", body:"", loaded:false, error:"" }
+  };
 
-function parseMessage(text){
-  // SUBJECT: ...
-  // BODY:
-  // ...
-  const subjectLine = text.match(/^SUBJECT:\s*(.*)$/m);
-  const bodySplit = text.split(/^\s*BODY:\s*$/m);
-  const subject = subjectLine ? subjectLine[1].trim() : "";
-  const body = bodySplit.length > 1 ? bodySplit.slice(1).join("\n").trim() : "";
-  return { subject, body };
-}
+  function normalizeEmails(text){
+    return text
+      .split(/\r?\n/)
+      .map(l=>l.trim())
+      .filter(Boolean)
+      .filter(l=>!l.startsWith("#"));
+  }
 
-function buildMailtoBcc(emails, subject, body){
-  // BCC-only mailto
-  const bcc = encodeURIComponent(emails.join(","));
-  const s = encodeURIComponent(subject || "");
-  const b = encodeURIComponent(body || "");
-  return `mailto:?bcc=${bcc}&subject=${s}&body=${b}`;
-}
+  function parseMessage(text){
+    // Expected:
+    // SUBJECT: ...
+    //
+    // BODY:
+    // ...
+    const subjectLine = text.match(/^SUBJECT:\s*(.*)$/m);
+    const bodySplit = text.split(/^\s*BODY:\s*$/m);
 
-/* ============================================================
-   State per section
-============================================================ */
-const state = {
-  cdu:{ emails:[], subject:"", body:"", ok:false, err:"" },
-  spd:{ emails:[], subject:"", body:"", ok:false, err:"" },
-  grn:{ emails:[], subject:"", body:"", ok:false, err:"" },
-  oth:{ emails:[], subject:"", body:"", ok:false, err:"" },
-};
+    const subject = subjectLine ? subjectLine[1].trim() : "";
+    const body = (bodySplit.length > 1) ? bodySplit.slice(1).join("\n").trim() : "";
+    return {subject, body};
+  }
 
-/* ============================================================
-   Render (ALL text changes with language)
-============================================================ */
-function renderStaticI18n(){
-  setDocLangDir();
+  function buildMailto(emails, subject, body){
+    // BCC-only
+    const bcc = encodeURIComponent(emails.join(","));
+    const s = encodeURIComponent(subject || "");
+    const b = encodeURIComponent(body || "");
+    return `mailto:?bcc=${bcc}&subject=${s}&body=${b}`;
+  }
 
-  document.title = t().pageTitle;
-  document.getElementById("pageTitle").textContent = t().pageTitle;
-  document.getElementById("pageSubtitle").textContent = t().pageSubtitle;
-  document.getElementById("noteTitle").textContent = t().noteTitle;
-  document.getElementById("noteText").textContent = t().noteText;
+  function setPanelError(key, msg){
+    PANELS[key].error = msg;
+    const errEl = document.getElementById(`error-${key}`);
+    if(errEl) errEl.textContent = msg ? (" — " + msg) : "";
+  }
 
-  // language button shows "next" language code
-  document.getElementById("langBtnLabel").textContent = t().langBtnNext;
+  function renderPanel(key){
+    const t = UI[LANG];
+    const p = PANELS[key];
 
-  // Section titles + pills + meta labels
-  for (const s of SECTIONS){
-    const k = s.key;
-
-    document.getElementById(`title-${k}`).textContent = t().titles[k];
-    document.getElementById(`pill-${k}`).textContent  = t().pills[k];
-
-    document.getElementById(`metaLabelRecipients-${k}`).textContent = t().labels.recipients;
-    document.getElementById(`metaLabelText-${k}`).textContent = t().labels.text;
-
-    document.getElementById(`send-${k}`).textContent = t().labels.send;
-
-    document.getElementById(`statusLabel-${k}`).textContent = t().labels.status;
-
-    document.getElementById(`previewSummary-${k}`).textContent = t().labels.show;
-    document.getElementById(`previewSubjectLabel-${k}`).textContent = t().labels.subject;
-
-    document.getElementById(`files-${k}`).textContent = `${t().labels.files} ${s.mailFile} + ${s.msgFile}`;
-
-    // meta "Text: message #x" name
-    document.getElementById(`metaText-${k}`).textContent = t().metaTextNames[k];
+    // status
+    const statusEl = document.getElementById(`status-${key}`);
+    if(statusEl){
+      const n = p.emails.length || 0;
+      statusEl.textContent = p.loaded ? t.loaded(n) : t.loaded(0);
+    }
 
     // bullets
-    const ul = document.getElementById(`bullets-${k}`);
-    ul.innerHTML = "";
-    for (const line of t().bullets){
-      const li = document.createElement("li");
-      li.textContent = line;
-      ul.appendChild(li);
+    const ul = document.getElementById(`bullets-${key}`);
+    if(ul){
+      ul.innerHTML = "";
+      for(const line of t.bullets){
+        const li = document.createElement("li");
+        li.textContent = line;
+        ul.appendChild(li);
+      }
+    }
+
+    // preview
+    const subjEl = document.getElementById(`previewSubject-${key}`);
+    const bodyEl = document.getElementById(`previewBody-${key}`);
+    if(subjEl) subjEl.textContent = p.subject || "—";
+    if(bodyEl) bodyEl.textContent = p.body || "—";
+
+    // files
+    const filesEl = document.getElementById(`files-${key}`);
+    if(filesEl) filesEl.textContent = t.files(p.mailFile, p.msgFile);
+
+    // enable button if ready
+    const btn = document.getElementById(`send-${key}`);
+    const ready = p.loaded && p.emails.length > 0 && (p.subject.length > 0 || p.body.length > 0) && !p.error;
+    if(btn) btn.disabled = !ready;
+  }
+
+  function renderAllPanels(){
+    renderPanel("cdu");
+    renderPanel("spd");
+    renderPanel("grn");
+    renderPanel("oth");
+  }
+
+  async function loadPanel(key){
+    const p = PANELS[key];
+    setPanelError(key, "");
+
+    try{
+      const [mailRes, msgRes] = await Promise.all([
+        fetch(p.mailFile, {cache:"no-store"}),
+        fetch(p.msgFile,  {cache:"no-store"})
+      ]);
+
+      if(!mailRes.ok) throw new Error(`${p.mailFile} not found`);
+      if(!msgRes.ok) throw new Error(`${p.msgFile} not found`);
+
+      const [mailTxt, msgTxt] = await Promise.all([mailRes.text(), msgRes.text()]);
+
+      p.emails = normalizeEmails(mailTxt);
+      const parsed = parseMessage(msgTxt);
+      p.subject = parsed.subject;
+      p.body = parsed.body;
+
+      p.loaded = true;
+
+      // Safety: if huge list, mailto may fail in some clients — still enable,
+      // but user might need to reduce list size.
+      renderPanel(key);
+    }catch(e){
+      p.loaded = false;
+      p.emails = [];
+      p.subject = "";
+      p.body = "";
+      setPanelError(key, UI[LANG].errorPrefix + e.message);
+      renderPanel(key);
     }
   }
 
-  // Dynamic areas must be re-rendered too:
-  renderDynamicAll();
-}
-
-function renderDynamicOne(key){
-  const s = state[key];
-
-  const recEl = document.getElementById(`metaRecipients-${key}`);
-  recEl.textContent = (s.emails && s.emails.length) ? String(s.emails.length) : "—";
-
-  const subjEl = document.getElementById(`previewSubject-${key}`);
-  subjEl.textContent = s.subject ? s.subject : t().empty;
-
-  const bodyEl = document.getElementById(`previewBody-${key}`);
-  bodyEl.textContent = s.body ? s.body : t().empty;
-
-  const statusEl = document.getElementById(`status-${key}`);
-  const btn = document.getElementById(`send-${key}`);
-
-  if (s.err){
-    statusEl.textContent = t().statusFmt.error(s.err);
-    btn.disabled = true;
-    return;
-  }
-
-  // message missing?
-  if (!s.subject && !s.body){
-    statusEl.textContent = t().statusFmt.msgMissing;
-    btn.disabled = true;
-    return;
-  }
-
-  if (!s.emails || s.emails.length === 0){
-    statusEl.textContent = t().statusFmt.empty;
-    btn.disabled = true;
-    return;
-  }
-
-  statusEl.textContent = t().statusFmt.loaded(s.emails.length);
-  btn.disabled = false;
-}
-
-function renderDynamicAll(){
-  for (const s of SECTIONS) renderDynamicOne(s.key);
-}
-
-/* ============================================================
-   Load files
-============================================================ */
-async function loadSectionFiles(section){
-  const key = section.key;
-  const st = state[key];
-
-  try{
-    // show loading text immediately (and language-aware)
-    document.getElementById(`status-${key}`).textContent = t().statusFmt.loading(section.mailFile, section.msgFile);
-
-    const [mailRes, msgRes] = await Promise.all([
-      fetch(section.mailFile, { cache:"no-store" }),
-      fetch(section.msgFile, { cache:"no-store" }),
-    ]);
-
-    if (!mailRes.ok) throw new Error(`${section.mailFile} not found`);
-    if (!msgRes.ok) throw new Error(`${section.msgFile} not found`);
-
-    const mailTxt = await mailRes.text();
-    const msgTxt  = await msgRes.text();
-
-    st.emails = normalizeEmails(mailTxt);
-    const parsed = parseMessage(msgTxt);
-    st.subject = parsed.subject;
-    st.body = parsed.body;
-    st.err = "";
-
-  } catch(e){
-    st.err = (e && e.message) ? e.message : String(e);
-  }
-
-  renderDynamicOne(key);
-}
-
-async function init(){
-  renderStaticI18n();
-
-  // attach send handlers
-  for (const sec of SECTIONS){
-    const key = sec.key;
-    document.getElementById(`send-${key}`).addEventListener("click", () => {
-      const st = state[key];
-      if (!st.emails.length) return;
-      const mailto = buildMailtoBcc(st.emails, st.subject, st.body);
-      window.location.href = mailto;
+  function attachSendHandler(key){
+    const btn = document.getElementById(`send-${key}`);
+    btn.addEventListener("click", () => {
+      const p = PANELS[key];
+      if(!p.loaded || !p.emails.length) return;
+      // IMPORTANT: must happen as a direct click handler for mobile mailto
+      window.location.href = buildMailto(p.emails, p.subject, p.body);
     });
   }
 
-  // load all sections
-  await Promise.all(SECTIONS.map(loadSectionFiles));
-}
+  (async function init(){
+    // attach handlers first
+    attachSendHandler("cdu");
+    attachSendHandler("spd");
+    attachSendHandler("grn");
+    attachSendHandler("oth");
 
-/* ============================================================
-   Language cycle: FA -> EN -> DE -> FA
-============================================================ */
-document.getElementById("langBtn").addEventListener("click", () => {
-  LANG = (LANG === "fa") ? "en" : (LANG === "en") ? "de" : "fa";
-  renderStaticI18n();
-});
+    // apply default language first
+    setLang("fa");
 
-init();
+    // load all panels
+    await Promise.all([
+      loadPanel("cdu"),
+      loadPanel("spd"),
+      loadPanel("grn"),
+      loadPanel("oth")
+    ]);
+
+    renderAllPanels();
+  })();
 </script>
 
 </body>
