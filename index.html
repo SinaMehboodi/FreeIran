@@ -27,8 +27,14 @@
 </head>
 <body>
 
-  <h1>📧 Email-Aktion an den Bundestag</h1>
-  <p class="small">
+  <!-- Language toggle (added) -->
+  <div class="row" style="justify-content:flex-end;margin-bottom:10px">
+    <button id="langBtn" class="secondary" type="button">🌐 EN</button>
+  </div>
+
+  <!-- Added IDs so language switch can translate -->
+  <h1 id="title">📧 Email-Aktion an den Bundestag</h1>
+  <p class="small" id="intro">
     Ein Klick öffnet deine Mail-App mit einer vorbereiteten Nachricht.
     Die Empfänger werden automatisch aus <span class="mono">emails.txt</span> geladen und in Chunks aufgeteilt.
   </p>
@@ -36,10 +42,9 @@
   <div class="card">
     <div class="row" style="justify-content:space-between">
       <div class="row">
-        <label for="chunkSize">Chunk-Größe:</label>
+        <label id="chunkLabel" for="chunkSize">Chunk-Größe:</label>
         <input id="chunkSize" type="number" min="1" step="1" value="60" />
-        <div class="chips" aria-label="Schnellauswahl Chunk-Größe">
-        </div>
+        <div class="chips" aria-label="Schnellauswahl Chunk-Größe"></div>
       </div>
 
       <div class="row">
@@ -49,12 +54,12 @@
     </div>
 
     <p class="small" style="margin-top:12px">
-      Status: <span id="status">Lade emails.txt …</span>
+      <span id="statusLabel">Status:</span> <span id="status">Lade emails.txt …</span>
     </p>
 
     <div class="card warn" style="margin-top:14px">
-      <b>Hinweis (wichtig):</b>
-      <span class="small">
+      <b id="warnTitle">Hinweis (wichtig):</b>
+      <span class="small" id="warnText">
         In-App-Browser (Instagram/X/Telegram) blockieren oft <span class="mono">mailto:</span>.
         Wenn es nicht klappt: Link im normalen Browser öffnen (Safari/Chrome) oder „In Browser öffnen“ wählen.
       </span>
@@ -62,10 +67,10 @@
   </div>
 
   <div class="card">
-    <h2 style="margin-top:0">Worum geht es?</h2>
+    <h2 id="aboutTitle" style="margin-top:0">Worum geht es?</h2>
 
-    <h3 style="margin-bottom:6px">Deutsch</h3>
-    <p style="margin-top:0">
+    <h3 id="aboutDeTitle" style="margin-bottom:6px">Deutsch</h3>
+    <p id="aboutDe" style="margin-top:0">
       Diese Aktion erstellt eine E-Mail an Mitglieder des Deutschen Bundestags. Die Nachricht bittet darum,
       die Unterstützung für das iranische Volk in seinem Streben nach Freiheit, Demokratie und Rechtsstaatlichkeit
       konsequent fortzusetzen, die territoriale Integrität Irans zu respektieren und größtmöglichen Schutz für
@@ -73,8 +78,8 @@
       des iranischen Volkes beruhen muss.
     </p>
 
-    <h3 style="margin-bottom:6px">English</h3>
-    <p style="margin-top:0">
+    <h3 id="aboutEnTitle" style="margin-bottom:6px">English</h3>
+    <p id="aboutEn" style="margin-top:0">
       This action opens a pre-written email addressed to members of the German Bundestag. The message asks them to
       continue supporting the Iranian people’s pursuit of freedom, democracy, and the rule of law, to respect Iran’s
       territorial integrity, and to take maximum precautions to avoid harm to civilians. It emphasizes that any future
@@ -82,23 +87,159 @@
     </p>
 
     <details style="margin-top:12px">
-      <summary>Show subject & body (for transparency)</summary>
-      <p class="small"><b>Subject:</b> <span class="mono" id="previewSubject"></span></p>
+      <summary id="previewSummary">Show subject & body (for transparency)</summary>
+      <p class="small"><b id="previewSubjectLabel">Subject:</b> <span class="mono" id="previewSubject"></span></p>
       <pre class="mono" id="previewBody" style="white-space:pre-wrap"></pre>
     </details>
   </div>
 
   <div class="card">
     <details open>
-      <summary>Manual chunk buttons (if “Next” is blocked)</summary>
+      <summary id="manualSummary">Manual chunk buttons (if “Next” is blocked)</summary>
       <div id="manualButtons" class="row" style="margin-top:12px"></div>
-      <p class="small" style="margin-top:10px">
+      <p class="small" id="manualHelp" style="margin-top:10px">
         If your phone blocks the Next button flow, use these to open each chunk manually.
       </p>
     </details>
   </div>
 
 <script>
+/* =========================
+   Language system (added)
+   ========================= */
+let LANG = "de";
+
+const UI_TEXT = {
+  de: {
+    pageTitle: "Email-Aktion – Bundestag",
+    langBtn: "🌐 EN",
+    title: "📧 Email-Aktion an den Bundestag",
+    intro: `Ein Klick öffnet deine Mail-App mit einer vorbereiteten Nachricht.
+Die Empfänger werden automatisch aus emails.txt geladen und in Chunks aufgeteilt.`,
+    chunkLabel: "Chunk-Größe:",
+    sendBtn: "✅ Senden (Entwurf öffnen)",
+    nextBtn: "➡️ Nächster Chunk",
+    statusLabel: "Status:",
+    warnTitle: "Hinweis (wichtig):",
+    warnText: `In-App-Browser (Instagram/X/Telegram) blockieren oft mailto:.
+Wenn es nicht klappt: Link im normalen Browser öffnen (Safari/Chrome) oder „In Browser öffnen“ wählen.`,
+    aboutTitle: "Worum geht es?",
+    aboutDeTitle: "Deutsch",
+    aboutEnTitle: "Englisch",
+    aboutDe: `Diese Aktion erstellt eine E-Mail an Mitglieder des Deutschen Bundestags. Die Nachricht bittet darum,
+die Unterstützung für das iranische Volk in seinem Streben nach Freiheit, Demokratie und Rechtsstaatlichkeit
+konsequent fortzusetzen, die territoriale Integrität Irans zu respektieren und größtmöglichen Schutz für
+Zivilistinnen und Zivilisten sicherzustellen. Betont wird außerdem, dass die zukünftige Ordnung auf dem Willen
+des iranischen Volkes beruhen muss.`,
+    aboutEn: `This action opens a pre-written email addressed to members of the German Bundestag. The message asks them to
+continue supporting the Iranian people’s pursuit of freedom, democracy, and the rule of law, to respect Iran’s
+territorial integrity, and to take maximum precautions to avoid harm to civilians. It emphasizes that any future
+political order must be based on the will of the Iranian people.`,
+    previewSummary: "Betreff & Text anzeigen (Transparenz)",
+    previewSubjectLabel: "Betreff:",
+    manualSummary: "Manuelle Chunk-Buttons (falls „Next“ blockiert ist)",
+    manualHelp: "Wenn dein Handy den Next-Flow blockiert, nutze diese Buttons, um jeden Chunk manuell zu öffnen.",
+    loading: "Lade emails.txt und message.txt …",
+    loadedFmt: (count, size, idx, total, nrec) =>
+      `Geladen: ${count} Emails • Chunk-Größe ${size} • Chunk ${idx}/${total} (${nrec} Empfänger)`,
+    noRecipients: "Keine Empfänger geladen. Prüfe emails.txt.",
+    empty: "(leer)",
+    openChunk: (i) => `Chunk ${i} öffnen`,
+    errorPrefix: "Fehler: "
+  },
+
+  en: {
+    pageTitle: "Email Campaign – Bundestag",
+    langBtn: "🌐 DE",
+    title: "📧 Email Campaign to the German Bundestag",
+    intro: `One click opens your email app with a prepared message.
+Recipients are loaded automatically from emails.txt and split into chunks.`,
+    chunkLabel: "Chunk size:",
+    sendBtn: "✅ Send (open draft)",
+    nextBtn: "➡️ Next chunk",
+    statusLabel: "Status:",
+    warnTitle: "Note (important):",
+    warnText: `In-app browsers (Instagram/X/Telegram) often block mailto:.
+If it doesn’t work: open the link in Safari/Chrome or choose “Open in browser”.`,
+    aboutTitle: "What is this about?",
+    aboutDeTitle: "German",
+    aboutEnTitle: "English",
+    aboutDe: `Diese Aktion erstellt eine E-Mail an Mitglieder des Deutschen Bundestags. Die Nachricht bittet darum,
+die Unterstützung für das iranische Volk in seinem Streben nach Freiheit, Demokratie und Rechtsstaatlichkeit
+konsequent fortzusetzen, die territoriale Integrität Irans zu respektieren und größtmöglichen Schutz für
+Zivilistinnen und Zivilisten sicherzustellen. Betont wird außerdem, dass die zukünftige Ordnung auf dem Willen
+des iranischen Volkes beruhen muss.`,
+    aboutEn: `This action opens a pre-written email addressed to members of the German Bundestag. The message asks them to
+continue supporting the Iranian people’s pursuit of freedom, democracy, and the rule of law, to respect Iran’s
+territorial integrity, and to take maximum precautions to avoid harm to civilians. It emphasizes that any future
+political order must be based on the will of the Iranian people.`,
+    previewSummary: "Show subject & body (for transparency)",
+    previewSubjectLabel: "Subject:",
+    manualSummary: "Manual chunk buttons (if “Next” is blocked)",
+    manualHelp: "If your phone blocks the Next button flow, use these to open each chunk manually.",
+    loading: "Loading emails.txt and message.txt …",
+    loadedFmt: (count, size, idx, total, nrec) =>
+      `Loaded ${count} emails • Chunk size ${size} • Chunk ${idx}/${total} (${nrec} recipients)`,
+    noRecipients: "No recipients loaded. Check emails.txt.",
+    empty: "(empty)",
+    openChunk: (i) => `Open chunk ${i}`,
+    errorPrefix: "Error: "
+  }
+};
+
+function applyLanguage() {
+  const t = UI_TEXT[LANG];
+
+  document.title = t.pageTitle;
+  document.documentElement.lang = LANG;
+
+  const setText = (id, value) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.textContent = value;
+  };
+
+  setText("langBtn", t.langBtn);
+  setText("title", t.title);
+  setText("intro", t.intro);
+  setText("chunkLabel", t.chunkLabel);
+
+  // Keep functionality, just change button labels
+  setText("sendBtn", t.sendBtn);
+  setText("nextBtn", t.nextBtn);
+
+  setText("statusLabel", t.statusLabel);
+  setText("warnTitle", t.warnTitle);
+  setText("warnText", t.warnText);
+
+  setText("aboutTitle", t.aboutTitle);
+  setText("aboutDeTitle", t.aboutDeTitle);
+  setText("aboutEnTitle", t.aboutEnTitle);
+  setText("aboutDe", t.aboutDe);
+  setText("aboutEn", t.aboutEn);
+
+  setText("previewSummary", t.previewSummary);
+  setText("previewSubjectLabel", t.previewSubjectLabel);
+
+  setText("manualSummary", t.manualSummary);
+  setText("manualHelp", t.manualHelp);
+
+  // Re-render preview/manual labels that depend on language
+  renderPreview();
+  renderManualButtons();
+  rebuildChunksAndUI();
+}
+
+document.getElementById("langBtn").addEventListener("click", () => {
+  LANG = (LANG === "de") ? "en" : "de";
+  applyLanguage();
+});
+
+
+/* =========================
+   Your existing functionality
+   (kept, only small hooks added)
+   ========================= */
 let SUBJECT = "";
 let BODY = "";
 
@@ -120,7 +261,7 @@ function normalizeEmails(text) {
     .split(/\r?\n/)
     .map(l => l.trim())
     .filter(Boolean)
-    .filter(l => !l.startsWith("#")); // allow comments
+    .filter(l => !l.startsWith("#"));
 }
 
 function chunkArray(arr, size) {
@@ -130,7 +271,6 @@ function chunkArray(arr, size) {
 }
 
 function buildMailto(bccList) {
-  // BCC-only mailto
   const bcc = encodeURIComponent(bccList.join(","));
   const subject = encodeURIComponent(SUBJECT || "");
   const body = encodeURIComponent(BODY || "");
@@ -138,17 +278,19 @@ function buildMailto(bccList) {
 }
 
 function renderPreview() {
-  if (previewSubjectEl) previewSubjectEl.textContent = SUBJECT || "(empty)";
-  if (previewBodyEl) previewBodyEl.textContent = BODY || "(empty)";
+  const t = UI_TEXT[LANG];
+  if (previewSubjectEl) previewSubjectEl.textContent = SUBJECT || t.empty;
+  if (previewBodyEl) previewBodyEl.textContent = BODY || t.empty;
 }
 
 function renderManualButtons() {
+  const t = UI_TEXT[LANG];
   manualEl.innerHTML = "";
   chunks.forEach((chunk, idx) => {
     const a = document.createElement("a");
     a.className = "btn";
     a.href = buildMailto(chunk);
-    a.textContent = `Open chunk ${idx + 1}`;
+    a.textContent = t.openChunk(idx + 1);
     a.style.marginRight = "8px";
     a.style.marginTop = "8px";
     manualEl.appendChild(a);
@@ -156,26 +298,30 @@ function renderManualButtons() {
 }
 
 function rebuildChunksAndUI() {
+  const t = UI_TEXT[LANG];
   const size = Math.max(1, parseInt(chunkSizeEl.value || "60", 10));
   chunks = chunkArray(emails, size);
 
-  // keep current in range
   if (chunks.length === 0) current = 0;
   else current = Math.min(current, chunks.length - 1);
 
-  // enable/disable buttons
   const ready = (emails.length > 0 && (SUBJECT.length > 0 || BODY.length > 0));
   sendBtn.disabled = !ready || chunks.length === 0;
   nextBtn.disabled = !ready || chunks.length === 0 || current >= chunks.length - 1;
 
   if (chunks.length === 0) {
-    statusEl.textContent = "No recipients loaded. Check emails.txt.";
+    statusEl.textContent = t.noRecipients;
     manualEl.innerHTML = "";
     return;
   }
 
-  statusEl.textContent =
-    `Loaded ${emails.length} emails • Chunk size ${size} • Chunk ${current + 1}/${chunks.length} (${chunks[current].length} recipients)`;
+  statusEl.textContent = t.loadedFmt(
+    emails.length,
+    size,
+    current + 1,
+    chunks.length,
+    chunks[current].length
+  );
 
   renderManualButtons();
 }
@@ -183,7 +329,6 @@ function rebuildChunksAndUI() {
 function openCurrentChunk() {
   if (!chunks.length) return;
   window.location.href = buildMailto(chunks[current]);
-  // update next button status after opening
   rebuildChunksAndUI();
 }
 
@@ -196,7 +341,6 @@ nextBtn.addEventListener("click", () => {
   }
 });
 
-// rebuild when chunk size changes
 chunkSizeEl.addEventListener("change", () => {
   current = 0;
   rebuildChunksAndUI();
@@ -214,17 +358,10 @@ async function loadMessage() {
   if (!res.ok) throw new Error("message.txt not found or not accessible");
   const txt = await res.text();
 
-  // Expected format:
-  // SUBJECT: ...
-  // (blank line optional)
-  // BODY:
-  // ...
   const subjectLine = txt.match(/^SUBJECT:\s*(.*)$/m);
   const bodySplit = txt.split(/^\s*BODY:\s*$/m);
 
   SUBJECT = subjectLine ? subjectLine[1].trim() : "";
-
-  // everything after BODY: is body
   BODY = bodySplit.length > 1 ? bodySplit.slice(1).join("\n").trim() : "";
 
   renderPreview();
@@ -232,14 +369,20 @@ async function loadMessage() {
 
 (async function init() {
   try {
-    statusEl.textContent = "Loading emails.txt and message.txt …";
+    // Apply default language first (so loading text matches)
+    applyLanguage();
+
+    statusEl.textContent = UI_TEXT[LANG].loading;
     await Promise.all([loadEmails(), loadMessage()]);
     rebuildChunksAndUI();
   } catch (err) {
     console.error(err);
-    statusEl.textContent = `Error: ${err.message}`;
+    statusEl.textContent = `${UI_TEXT[LANG].errorPrefix}${err.message}`;
     sendBtn.disabled = true;
     nextBtn.disabled = true;
   }
 })();
 </script>
+
+</body>
+</html>
