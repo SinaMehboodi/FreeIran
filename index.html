@@ -1,0 +1,500 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Email Campaign</title>
+  <style>
+  :root{
+    --bg0:#07131c;
+    --bg1:#071a26;
+    --bg2:#061018;
+
+    --card0:#0e2533;
+    --card1:#0b1f2c;
+
+    --border:rgba(255,255,255,.10);
+    --text:#e8f2ff;
+    --muted:rgba(232,242,255,.78);
+  }
+
+  body{
+    font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+    max-width:920px;
+    margin:40px auto;
+    padding:0 16px;
+    line-height:1.55;
+    color:var(--text);
+    background:
+      radial-gradient(1200px 700px at 20% 10%, rgba(47,192,214,.10), transparent 55%),
+      radial-gradient(900px 600px at 80% 0%, rgba(60,120,255,.10), transparent 50%),
+      linear-gradient(180deg, var(--bg1), var(--bg0) 55%, var(--bg2));
+  }
+
+  h1{margin:0 0 10px}
+  h2{margin:0 0 10px}
+  .small{opacity:.85;font-size:.95rem;color:var(--muted)}
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;word-break:break-word;unicode-bidi:plaintext}
+
+  .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+  .topbar{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}
+
+  button,a.btn{
+    display:inline-block;
+    padding:14px 18px;
+    border-radius:12px;
+    border:1px solid rgba(255,255,255,.15);
+    background:#0b1f2c;
+    color:#fff;
+    text-decoration:none;
+    font-weight:800;
+    cursor:pointer
+  }
+  button.secondary{background:transparent;color:#fff}
+  button:disabled{opacity:.5;cursor:not-allowed}
+
+  details summary{cursor:pointer;font-weight:800}
+
+  .card{
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03)),
+      linear-gradient(180deg, var(--card0), var(--card1));
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:18px 16px;
+    margin:14px 0;
+    box-shadow:
+      0 20px 50px rgba(0,0,0,.55),
+      0 1px 0 rgba(255,255,255,.05) inset;
+  }
+
+  .warn{
+    background:rgba(255,193,7,.08);
+    border:1px solid rgba(255,193,7,.3)
+  }
+
+  /* 4 colored variants */
+  .v1{border-color:rgba(74,222,128,.25)}
+  .v2{border-color:rgba(96,165,250,.25)}
+  .v3{border-color:rgba(248,113,113,.25)}
+  .v4{border-color:rgba(167,139,250,.25)}
+
+  .badge{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:6px 10px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,.15);
+    background:rgba(255,255,255,.04);
+    font-weight:800;
+    font-size:.9rem;
+  }
+  .dot{width:10px;height:10px;border-radius:999px;display:inline-block}
+  .dot.g{background:rgba(74,222,128,.95)}
+  .dot.b{background:rgba(96,165,250,.95)}
+  .dot.r{background:rgba(248,113,113,.95)}
+  .dot.p{background:rgba(167,139,250,.95)}
+
+  .grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:14px;
+  }
+  @media(min-width:900px){
+    .grid{grid-template-columns:1fr 1fr}
+  }
+
+  .btnWide{width:100%;text-align:center}
+  pre{margin:10px 0 0;white-space:pre-wrap}
+  </style>
+</head>
+<body>
+
+  <div class="topbar">
+    <div>
+      <h1 id="title">📧 کمپین ارسال ایمیل</h1>
+      <p class="small" id="intro">
+        با یک کلیک، اپ ایمیل شما با متن آماده باز می‌شود. این صفحه ۴ کمپین جدا دارد (لیست ایمیل و پیام جدا).
+      </p>
+    </div>
+    <button id="langBtn" class="secondary" type="button">🌐 EN</button>
+  </div>
+
+  <div class="card warn">
+    <b id="warnTitle">نکته مهم:</b>
+    <span class="small" id="warnText">
+      مرورگرهای داخل اپ‌ها (Instagram/X/Telegram) اغلب <span class="mono">mailto:</span> را بلاک می‌کنند.
+      اگر کار نکرد: لینک را در مرورگر اصلی (Safari/Chrome) باز کنید یا گزینه «Open in browser» را بزنید.
+    </span>
+  </div>
+
+  <div class="grid">
+    <!-- Campaign 1 -->
+    <div class="card v1">
+      <div class="row" style="justify-content:space-between">
+        <span class="badge"><span class="dot g"></span><span id="c1Title">کمپین ۱</span></span>
+        <span class="small"><span id="c1Files"></span></span>
+      </div>
+
+      <p class="small" id="c1Desc"></p>
+
+      <button id="c1Send" class="btnWide" disabled>✅ ارسال (باز کردن پیش‌نویس)</button>
+      <p class="small" style="margin-top:10px"><span id="c1StatusLabel">وضعیت:</span> <span id="c1Status">…</span></p>
+
+      <details style="margin-top:12px">
+        <summary id="c1PreviewSummary">نمایش موضوع و متن ایمیل</summary>
+        <p class="small"><b id="c1SubLabel">موضوع:</b> <span class="mono" id="c1Sub"></span></p>
+        <pre class="mono" id="c1Body"></pre>
+      </details>
+    </div>
+
+    <!-- Campaign 2 -->
+    <div class="card v2">
+      <div class="row" style="justify-content:space-between">
+        <span class="badge"><span class="dot b"></span><span id="c2Title">کمپین ۲</span></span>
+        <span class="small"><span id="c2Files"></span></span>
+      </div>
+
+      <p class="small" id="c2Desc"></p>
+
+      <button id="c2Send" class="btnWide" disabled>✅ ارسال (باز کردن پیش‌نویس)</button>
+      <p class="small" style="margin-top:10px"><span id="c2StatusLabel">وضعیت:</span> <span id="c2Status">…</span></p>
+
+      <details style="margin-top:12px">
+        <summary id="c2PreviewSummary">نمایش موضوع و متن ایمیل</summary>
+        <p class="small"><b id="c2SubLabel">موضوع:</b> <span class="mono" id="c2Sub"></span></p>
+        <pre class="mono" id="c2Body"></pre>
+      </details>
+    </div>
+
+    <!-- Campaign 3 -->
+    <div class="card v3">
+      <div class="row" style="justify-content:space-between">
+        <span class="badge"><span class="dot r"></span><span id="c3Title">کمپین ۳</span></span>
+        <span class="small"><span id="c3Files"></span></span>
+      </div>
+
+      <p class="small" id="c3Desc"></p>
+
+      <button id="c3Send" class="btnWide" disabled>✅ ارسال (باز کردن پیش‌نویس)</button>
+      <p class="small" style="margin-top:10px"><span id="c3StatusLabel">وضعیت:</span> <span id="c3Status">…</span></p>
+
+      <details style="margin-top:12px">
+        <summary id="c3PreviewSummary">نمایش موضوع و متن ایمیل</summary>
+        <p class="small"><b id="c3SubLabel">موضوع:</b> <span class="mono" id="c3Sub"></span></p>
+        <pre class="mono" id="c3Body"></pre>
+      </details>
+    </div>
+
+    <!-- Campaign 4 -->
+    <div class="card v4">
+      <div class="row" style="justify-content:space-between">
+        <span class="badge"><span class="dot p"></span><span id="c4Title">کمپین ۴</span></span>
+        <span class="small"><span id="c4Files"></span></span>
+      </div>
+
+      <p class="small" id="c4Desc"></p>
+
+      <button id="c4Send" class="btnWide" disabled>✅ ارسال (باز کردن پیش‌نویس)</button>
+      <p class="small" style="margin-top:10px"><span id="c4StatusLabel">وضعیت:</span> <span id="c4Status">…</span></p>
+
+      <details style="margin-top:12px">
+        <summary id="c4PreviewSummary">نمایش موضوع و متن ایمیل</summary>
+        <p class="small"><b id="c4SubLabel">موضوع:</b> <span class="mono" id="c4Sub"></span></p>
+        <pre class="mono" id="c4Body"></pre>
+      </details>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2 id="reuseTitle">استفاده مجدد در کشور شما</h2>
+    <p class="small" id="reuseText"></p>
+    <pre class="mono" id="reuseFormat">
+SUBJECT: ...
+
+BODY:
+...
+    </pre>
+  </div>
+
+<script>
+/* =========================
+   Language system (FA default)
+   ========================= */
+let LANG = "fa";
+
+const UI_TEXT = {
+  fa: {
+    dir:"rtl",
+    pageTitle:"کمپین ارسال ایمیل",
+    langBtn:"🌐 EN",
+    title:"📧 کمپین ارسال ایمیل",
+    intro:"با یک کلیک، اپ ایمیل شما با متن آماده باز می‌شود. این صفحه ۴ کمپین جدا دارد (لیست ایمیل و پیام جدا).",
+    warnTitle:"نکته مهم:",
+    warnText:"مرورگرهای داخل اپ‌ها (Instagram/X/Telegram) اغلب mailto: را بلاک می‌کنند. اگر کار نکرد: لینک را در مرورگر اصلی (Safari/Chrome) باز کنید یا گزینه «Open in browser» را بزنید.",
+
+    cTitle:(n)=>`کمپین ${n}`,
+    files:(m,msg)=>`فایل‌ها: ${m} + ${msg}`,
+    desc1:"برای لیست ۱ و پیام ۱",
+    desc2:"برای لیست ۲ و پیام ۲",
+    desc3:"برای لیست ۳ و پیام ۳",
+    desc4:"برای لیست ۴ و پیام ۴",
+    send:"✅ ارسال (باز کردن پیش‌نویس)",
+    statusLabel:"وضعیت:",
+    previewSummary:"نمایش موضوع و متن ایمیل",
+    subLabel:"موضوع:",
+    loading:"در حال بارگذاری…",
+    loaded:(n)=>`بارگذاری شد: ${n} ایمیل`,
+    empty:"(خالی)",
+    errorPrefix:"خطا: ",
+    reuseTitle:"استفاده مجدد در کشور شما",
+    reuseText:"برای استفاده در کشور خودتان، کافی است ریپازیتوری را دانلود/فورک کنید و فایل‌های mail1.txt..mail4.txt (هر ایمیل در یک خط) و message1.txt..message4.txt را با همین فرمت ویرایش کنید. سپس صفحه را در GitHub Pages منتشر کرده و لینک را با جامعه خود به اشتراک بگذارید."
+  },
+
+  en: {
+    dir:"ltr",
+    pageTitle:"Email Campaign",
+    langBtn:"🌐 DE",
+    title:"📧 Email Campaign",
+    intro:"One click opens your email app with a prepared message. This page contains 4 separate campaigns (separate lists and messages).",
+    warnTitle:"Note (important):",
+    warnText:"In-app browsers (Instagram/X/Telegram) often block mailto:. If it doesn’t work: open the link in Safari/Chrome or choose “Open in browser”.",
+
+    cTitle:(n)=>`Campaign ${n}`,
+    files:(m,msg)=>`Files: ${m} + ${msg}`,
+    desc1:"Uses list 1 + message 1",
+    desc2:"Uses list 2 + message 2",
+    desc3:"Uses list 3 + message 3",
+    desc4:"Uses list 4 + message 4",
+    send:"✅ Send (open draft)",
+    statusLabel:"Status:",
+    previewSummary:"Show subject & body",
+    subLabel:"Subject:",
+    loading:"Loading…",
+    loaded:(n)=>`Loaded: ${n} emails`,
+    empty:"(empty)",
+    errorPrefix:"Error: ",
+    reuseTitle:"Reuse this tool in your country",
+    reuseText:"To reuse: download/fork the repository and replace mail1.txt..mail4.txt (one email per line) and edit message1.txt..message4.txt using the same SUBJECT/BODY format. Publish with GitHub Pages and share the link with your community."
+  },
+
+  de: {
+    dir:"ltr",
+    pageTitle:"Email-Aktion",
+    langBtn:"🌐 FA",
+    title:"📧 Email-Aktion",
+    intro:"Ein Klick öffnet deine Mail-App mit einer vorbereiteten Nachricht. Diese Seite enthält 4 getrennte Kampagnen (eigene Listen & Nachrichten).",
+    warnTitle:"Hinweis (wichtig):",
+    warnText:"In-App-Browser (Instagram/X/Telegram) blockieren oft mailto:. Wenn es nicht klappt: Link im normalen Browser öffnen (Safari/Chrome) oder „In Browser öffnen“ wählen.",
+
+    cTitle:(n)=>`Kampagne ${n}`,
+    files:(m,msg)=>`Dateien: ${m} + ${msg}`,
+    desc1:"Verwendet Liste 1 + Nachricht 1",
+    desc2:"Verwendet Liste 2 + Nachricht 2",
+    desc3:"Verwendet Liste 3 + Nachricht 3",
+    desc4:"Verwendet Liste 4 + Nachricht 4",
+    send:"✅ Senden (Entwurf öffnen)",
+    statusLabel:"Status:",
+    previewSummary:"Betreff & Text anzeigen",
+    subLabel:"Betreff:",
+    loading:"Lade…",
+    loaded:(n)=>`Geladen: ${n} Emails`,
+    empty:"(leer)",
+    errorPrefix:"Fehler: ",
+    reuseTitle:"Tool im eigenen Land nutzen",
+    reuseText:"Zur Wiederverwendung: Repository herunterladen/forken und mail1.txt..mail4.txt (eine Adresse pro Zeile) ersetzen sowie message1.txt..message4.txt im gleichen SUBJECT/BODY-Format anpassen. Danach per GitHub Pages veröffentlichen und Link teilen."
+  }
+};
+
+function setDirAndLang(langKey){
+  document.documentElement.lang = langKey;
+  document.documentElement.dir = UI_TEXT[langKey].dir;
+}
+
+function applyLanguage(){
+  const t = UI_TEXT[LANG];
+  document.title = t.pageTitle;
+  setDirAndLang(LANG);
+
+  const setText = (id, v) => { const el=document.getElementById(id); if(el) el.textContent=v; };
+
+  setText("langBtn", t.langBtn);
+  setText("title", t.title);
+  setText("intro", t.intro);
+  setText("warnTitle", t.warnTitle);
+  setText("warnText", t.warnText);
+
+  setText("c1Title", t.cTitle(1));
+  setText("c2Title", t.cTitle(2));
+  setText("c3Title", t.cTitle(3));
+  setText("c4Title", t.cTitle(4));
+
+  setText("c1Desc", t.desc1);
+  setText("c2Desc", t.desc2);
+  setText("c3Desc", t.desc3);
+  setText("c4Desc", t.desc4);
+
+  setText("c1Send", t.send);
+  setText("c2Send", t.send);
+  setText("c3Send", t.send);
+  setText("c4Send", t.send);
+
+  setText("c1StatusLabel", t.statusLabel);
+  setText("c2StatusLabel", t.statusLabel);
+  setText("c3StatusLabel", t.statusLabel);
+  setText("c4StatusLabel", t.statusLabel);
+
+  setText("c1PreviewSummary", t.previewSummary);
+  setText("c2PreviewSummary", t.previewSummary);
+  setText("c3PreviewSummary", t.previewSummary);
+  setText("c4PreviewSummary", t.previewSummary);
+
+  setText("c1SubLabel", t.subLabel);
+  setText("c2SubLabel", t.subLabel);
+  setText("c3SubLabel", t.subLabel);
+  setText("c4SubLabel", t.subLabel);
+
+  setText("reuseTitle", t.reuseTitle);
+  setText("reuseText", t.reuseText);
+
+  // update file labels (static filenames, translated prefix)
+  setText("c1Files", t.files("mail1.txt","message1.txt"));
+  setText("c2Files", t.files("mail2.txt","message2.txt"));
+  setText("c3Files", t.files("mail3.txt","message3.txt"));
+  setText("c4Files", t.files("mail4.txt","message4.txt"));
+
+  // refresh preview placeholders if empty
+  renderAllPreviews();
+}
+
+document.getElementById("langBtn").addEventListener("click", ()=>{
+  LANG = (LANG==="fa") ? "en" : (LANG==="en") ? "de" : "fa";
+  applyLanguage();
+});
+
+/* =========================
+   Core mail loading + sending
+   ========================= */
+
+function normalizeEmails(text){
+  return text
+    .split(/\r?\n/)
+    .map(l=>l.trim())
+    .filter(Boolean)
+    .filter(l=>!l.startsWith("#"));
+}
+
+function parseMessage(txt){
+  const subjectLine = txt.match(/^SUBJECT:\s*(.*)$/m);
+  const bodySplit = txt.split(/^\s*BODY:\s*$/m);
+  const SUBJECT = subjectLine ? subjectLine[1].trim() : "";
+  const BODY = bodySplit.length > 1 ? bodySplit.slice(1).join("\n").trim() : "";
+  return { SUBJECT, BODY };
+}
+
+function buildMailto(list, subject, body){
+  const bcc = encodeURIComponent(list.join(","));
+  const s = encodeURIComponent(subject || "");
+  const b = encodeURIComponent(body || "");
+  return `mailto:?bcc=${bcc}&subject=${s}&body=${b}`;
+}
+
+const campaigns = [
+  { id:1, mailFile:"mail1.txt", msgFile:"message1.txt" },
+  { id:2, mailFile:"mail2.txt", msgFile:"message2.txt" },
+  { id:3, mailFile:"mail3.txt", msgFile:"message3.txt" },
+  { id:4, mailFile:"mail4.txt", msgFile:"message4.txt" },
+];
+
+const state = {
+  1:{emails:[], subject:"", body:""},
+  2:{emails:[], subject:"", body:""},
+  3:{emails:[], subject:"", body:""},
+  4:{emails:[], subject:"", body:""},
+};
+
+function el(id){ return document.getElementById(id); }
+
+function setStatus(cid, text){
+  el(`c${cid}Status`).textContent = text;
+}
+function setPreview(cid, subject, body){
+  const t = UI_TEXT[LANG];
+  el(`c${cid}Sub`).textContent = subject || t.empty;
+  el(`c${cid}Body`).textContent = body || t.empty;
+}
+function setSendEnabled(cid, enabled){
+  el(`c${cid}Send`).disabled = !enabled;
+}
+
+function renderAllPreviews(){
+  for(const c of campaigns){
+    const s = state[c.id];
+    setPreview(c.id, s.subject, s.body);
+  }
+}
+
+async function loadCampaign(c){
+  const t = UI_TEXT[LANG];
+  const cid = c.id;
+
+  setStatus(cid, t.loading);
+  setSendEnabled(cid, false);
+
+  // load emails
+  const r1 = await fetch(c.mailFile, { cache:"no-store" });
+  if(!r1.ok) throw new Error(`${c.mailFile} not found or not accessible`);
+  const emailsTxt = await r1.text();
+  const emails = normalizeEmails(emailsTxt);
+
+  // load message
+  const r2 = await fetch(c.msgFile, { cache:"no-store" });
+  if(!r2.ok) throw new Error(`${c.msgFile} not found or not accessible`);
+  const msgTxt = await r2.text();
+  const parsed = parseMessage(msgTxt);
+
+  state[cid].emails = emails;
+  state[cid].subject = parsed.SUBJECT;
+  state[cid].body = parsed.BODY;
+
+  setPreview(cid, parsed.SUBJECT, parsed.BODY);
+
+  const ready = emails.length > 0 && (parsed.SUBJECT.length > 0 || parsed.BODY.length > 0);
+  setSendEnabled(cid, ready);
+
+  setStatus(cid, ready ? t.loaded(emails.length) : `${t.loaded(emails.length)} • ${t.empty}`);
+}
+
+function bindSendButtons(){
+  for(const c of campaigns){
+    const cid = c.id;
+    el(`c${cid}Send`).addEventListener("click", ()=>{
+      const s = state[cid];
+      if(!s.emails.length) return;
+      window.location.href = buildMailto(s.emails, s.subject, s.body);
+    });
+  }
+}
+
+(async function init(){
+  try{
+    applyLanguage();
+    bindSendButtons();
+
+    // load all 4 campaigns in parallel
+    await Promise.all(campaigns.map(loadCampaign));
+  }catch(err){
+    console.error(err);
+    // If one fails, show error on all for visibility
+    for(const c of campaigns){
+      setStatus(c.id, `${UI_TEXT[LANG].errorPrefix}${err.message}`);
+      setSendEnabled(c.id, false);
+      setPreview(c.id, "", "");
+    }
+  }
+})();
+</script>
+
+</body>
+</html>
