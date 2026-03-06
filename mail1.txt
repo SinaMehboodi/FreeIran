@@ -76,7 +76,6 @@ georg.kippels@bundestag.de
 ottilie.klein@bundestag.de
 julia.kloeckner@bundestag.de
 axel.knoerig@bundestag.de
-daniel.koebl@bundestag.de
 anne.koenig@bundestag.de
 carsten.koerber@bundestag.de
 ulrich.lange@bundestag.de
@@ -108,7 +107,6 @@ florian.oest@bundestag.de
 harald.orthey@bundestag.de
 florian.ossner@bundestag.de
 josef.oster@bundestag.de
-henning.otte@bundestag.de
 thomas.pauls@bundestag.de
 stephan.pilsinger@bundestag.de
 christoph.ploss@bundestag.de
